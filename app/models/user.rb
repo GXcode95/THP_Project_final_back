@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :package
   has_many :rents
+  has_many :ranks
 end
