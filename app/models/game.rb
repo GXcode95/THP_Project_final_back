@@ -4,4 +4,5 @@ class Game < ApplicationRecord
     has_many :images
     has_many :rents
     has_many :ranks
+    has_many :comments
 end
