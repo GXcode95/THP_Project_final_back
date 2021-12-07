@@ -6,4 +6,5 @@ class User < ApplicationRecord
   belongs_to :package
   has_many :rents
   has_many :ranks
+  has_many :comments
 end
