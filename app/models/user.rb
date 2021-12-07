@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :ranks
   has_many :comments
   has_many :favorites
+  has_many :carts
 end
