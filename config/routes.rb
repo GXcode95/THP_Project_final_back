@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :rents
   resources :images
   devise_for :users
   resources :tags
