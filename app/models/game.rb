@@ -5,4 +5,5 @@ class Game < ApplicationRecord
     has_many :rents
     has_many :ranks
     has_many :comments
+    has_many :favorites
 end
