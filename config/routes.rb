@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :orders
+  resources :carts
+  resources :favorites
+  resources :comments
+  resources :ranks
+  resources :rents
+  resources :images
   devise_for :users
   resources :tags
   resources :packages

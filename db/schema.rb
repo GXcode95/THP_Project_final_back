@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_07_141733) do
+ActiveRecord::Schema.define(version: 2021_12_07_164926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.boolean "paid"
+    t.string "stripe_customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_comments_on_game_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_favorites_on_game_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -31,12 +59,62 @@ ActiveRecord::Schema.define(version: 2021_12_07_141733) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "images", force: :cascade do |t|
+    t.bigint "game_id"
+    t.string "public_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_images_on_game_id"
+  end
+
+  create_table "join_game_and_tags", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_join_game_and_tags_on_game_id"
+    t.index ["tag_id"], name: "index_join_game_and_tags_on_tag_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "cart_id"
+    t.bigint "package_id"
+    t.bigint "game_id"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["game_id"], name: "index_orders_on_game_id"
+    t.index ["package_id"], name: "index_orders_on_package_id"
+  end
+
   create_table "packages", force: :cascade do |t|
     t.integer "game_number"
     t.string "name"
     t.integer "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.integer "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_ranks_on_game_id"
+    t.index ["user_id"], name: "index_ranks_on_user_id"
+  end
+
+  create_table "rents", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.integer "quantity"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_rents_on_game_id"
+    t.index ["user_id"], name: "index_rents_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|

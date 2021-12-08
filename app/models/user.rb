@@ -4,4 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :package
+  has_many :rents
+  has_many :ranks
+  has_many :comments
+  has_many :favorites
+  has_many :carts
 end
