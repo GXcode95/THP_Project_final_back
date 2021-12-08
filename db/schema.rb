@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
 
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
-    t.boolean "paid"
+    t.boolean "paid", default: false
     t.string "stripe_customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
     t.string "last_name"
     t.string "address"
     t.string "phone"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.date "subscription_ending"
     t.bigint "package_id"
     t.string "reset_password_token"
