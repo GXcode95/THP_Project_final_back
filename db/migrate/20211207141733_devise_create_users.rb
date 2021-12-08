@@ -11,8 +11,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.string :last_name
       t.string :address
       t.string :phone
-      t.boolean :admin #
-      t.date :subscription_ending
+      t.boolean :admin, default: false
+      t.date :subscription_ending, default: nil
       t.belongs_to :package, index: true
 
       ## Recoverable
