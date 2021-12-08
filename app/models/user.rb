@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :last_name, length:{in:2..20}, presence: true
   validates :address, presence: true
 
-  belongs_to :package
+  belongs_to :package, optional: true
 
   has_many :rents
   has_many :ranks
