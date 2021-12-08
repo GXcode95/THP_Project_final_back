@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
     t.string "last_name"
     t.string "address"
     t.string "phone"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.date "subscription_ending"
     t.bigint "package_id"
     t.string "reset_password_token"
