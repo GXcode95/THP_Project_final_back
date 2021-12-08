@@ -4,9 +4,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    p "$$"*100
-    p 
-    p "$$"*100
   end
 
   private
