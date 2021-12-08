@@ -56,7 +56,8 @@ User.create(
     phone: "0" + rand(100000000..999999999).to_s,
     admin: true,
     subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
-    package_id: 1)
+    package_id: 1
+    )
 puts "Admin crée"
 
 5.times do
@@ -122,8 +123,7 @@ end
 10.times do 
     Order.create(
         game_id: rand(1..25),
-        cart_id: rand(1..10)
-        package_id: nil,
+        cart_id: rand(1..10),
         quantity: rand(1..3)
     )
     puts 'Order crée'
