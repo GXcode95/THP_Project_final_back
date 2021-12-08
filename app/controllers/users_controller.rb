@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :authenticate_user!
   
   def show
     @wish_list = Rent.where({ user_id: @user.id, status: 1 })
@@ -19,8 +20,6 @@ class UsersController < ApplicationController
   end
 
   def update
-
-
     if @user.update(user_params)
       render json: { userInfo: @user }
     else
@@ -32,6 +31,10 @@ class UsersController < ApplicationController
 
   def set_user
     @user= User.find(params[:id])
+  end
+
+  def unauthorized_user
+    render json: { message: "Vous n'êtes pas le propriétaire de ce compte" }
   end
 
   def user_params
