@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 require 'faker'
 
 25.times do
@@ -45,3 +46,4 @@ end
     Image.create(game_id:(rand(25)),public_id:'https://cdn.w600.comps.canstockphoto.fr/jeu-table-diamant-three-player-image_csp68281811.jpg')
     puts 'image créee'
 end
+
