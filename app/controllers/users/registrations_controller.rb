@@ -4,11 +4,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
+    p "$$"*100
+    p 
+    p "$$"*100
   end
 
   private
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :address, :phone,
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :address, :phone,
                                                        :admin, :subscription_ending, :package_id])
   end
 
