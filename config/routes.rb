@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :users, only: [:index, :show]
       resources :rents, only: [:index]
-      resources :games, only: [:index, :show, :create, :update, :destroy] do
+      resources :games, only: [:index, :create, :update, :destroy] do
         resources :images, only: [:create, :destroy]
       end
     end

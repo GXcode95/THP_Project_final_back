@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   def user_response
-    current_user ? @user = current_user : @user = User.find(params[:id])
+    current_user && !current_user.admin ? @user = current_user : @user = User.find(params[:id])
     @wish_list = Rent.where( user_id: @user.id, status: 0 )
     @rent_games = Rent.where( user_id: @user.id, status: 1 )
     @rented_games = Rent.where( user_id: @user.id, status: 2 )
@@ -13,5 +13,9 @@ class ApplicationController < ActionController::API
       wishList: @wish_list,
       cart: @cart 
     }
+  end
+
+  def authenticate_admin
+    redirect_to new_user_session_path unless current_user && current_user.admin
   end
 end
