@@ -14,17 +14,16 @@ Rails.application.routes.draw do
         resources :images, only: [:create, :destroy]
       end
     end
-    resources :games
-    resources :images
-    resources :carts
-    resources :orders
-    resources :packages
-    resources :rents
+    resources :games, only: [:index]
+    resources :carts, only: [:update] # Add to be update when implementing stripes
+    resources :orders, only: [:create, :update, :destroy]
+    resources :rents, only: [:index, :create, :destroy]
   end
-  # features
+  # features #
   # resources :tags
   # resources :ranks
   # resources :comments
   # resources :favorites
+  # resources :packages
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
