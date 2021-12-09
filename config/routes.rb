@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :ranks
   resources :rents
   resources :images
-  devise_for :users
+  devise_for :users,
+              controllers: {
+                  sessions: 'users/sessions',
+                  registrations: 'users/registrations'
+              }
   resources :tags
   resources :packages
   resources :games
