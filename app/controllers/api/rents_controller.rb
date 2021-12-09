@@ -4,9 +4,7 @@ class Api::RentsController < ApplicationController
 
   # GET /rents
   def index
-    @rents = set_rents()
-
-    render json: @rents
+    render json: set_rents()
   end
 
 
@@ -14,9 +12,8 @@ class Api::RentsController < ApplicationController
   def create
     @rent = Rent.new(rent_params)
 
-    if @rent.save
-      @rents = set_rents()
-      render json: @rents, status: :created, location: @rent
+    if @rent.save && is_subscribed?
+      render json: set_rents, status: :created, location: @rent
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -24,9 +21,8 @@ class Api::RentsController < ApplicationController
 
   # PATCH/PUT /rents/1
   def update
-    if @rent.update(rent_params)
-      @rents = set_rents()
-      render json: @rents
+    if @rent.update(rent_params) && is_subscribed?
+      render json: set_rents
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -35,8 +31,7 @@ class Api::RentsController < ApplicationController
   # DELETE /rents/1
   def destroy
     @rent.destroy if @rent.status == "wishlist"
-    @rents = set_rents()
-    render json: @rents
+    render json: set_rents
   end
 
   private
@@ -56,6 +51,10 @@ class Api::RentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_rent
       @rent = Rent.find(params[:id])
+    end
+
+    def is_subscribed?
+      current_user.subscription_ending > Date.today
     end
 
     # Only allow a list of trusted parameters through.
