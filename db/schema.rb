@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_172953) do
     t.bigint "game_id"
     t.bigint "user_id"
     t.integer "quantity"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_rents_on_game_id"

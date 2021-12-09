@@ -111,14 +111,16 @@ end
     puts 'Favorite crée'
 end
 
-10.times do 
+=begin
+ 10.times do 
     Cart.create(
         user_id: rand(1..6),
         paid: [true, false].sample,
         stripe_customer_id: rand(100000..999999).to_s
     )
     puts 'Cart crée'
-end
+end 
+=end
 
 10.times do 
     Order.create(

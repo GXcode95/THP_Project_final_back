@@ -1,4 +1,4 @@
-class Users::RegistrationsController < Devise::RegistrationsController
+class Api::Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   before_action :configure_sign_up_params, only: [:create]
 
@@ -19,7 +19,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    render json: { message: 'Signed up sucessfully.' }
+    render json: user_response(current_user)
   end
 
   def register_failed

@@ -1,4 +1,4 @@
-class Users::SessionsController < Devise::SessionsController
+class Api::Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   private
@@ -24,7 +24,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def log_in_success
-    render json: { message: 'You are logged in.' }, status: :ok
+    render json: user_response(current_user), status: :ok
   end
 
   def log_in_failure
