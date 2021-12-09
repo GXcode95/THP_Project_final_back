@@ -3,10 +3,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   
   def show
-    @wish_list = Rent.where({ user_id: @user.id, status: 1 })
-    @rent_games = Rent.where({ user_id: @user.id, status: 2 })
-    @rented_games = Rent.where({ user_id: @user.id, status: 3 })
-    @cart = Cart.where({user_id: @user.id})
+    @wish_list = Rent.where( user_id: @user.id, status: 1 )
+    @rent_games = Rent.where( user_id: @user.id, status: 2 )
+    @rented_games = Rent.where( user_id: @user.id, status: 3 )
+    @cart = Cart.where( user_id: @user.id)
 
     # Add user favorite and command history after MVP
 
