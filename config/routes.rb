@@ -4,8 +4,8 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :update]
     devise_for :users,
     controllers: {
-      sessions: 'users/sessions',
-      registrations: 'users/registrations'
+      sessions: 'api/users/sessions',
+      registrations: 'api/users/registrations'
     }
     namespace :admin do
       resources :users, only: [:index, :show]
