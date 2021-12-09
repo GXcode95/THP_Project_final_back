@@ -4,13 +4,13 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    log_in_success && return if current_user
+    log_in_success && return if current_api_user
 
     log_in_failure
   end
 
   def respond_to_on_destroy
-    log_out_success && return if current_user
+    log_out_success && return if current_api_user
 
     log_out_failure
   end
