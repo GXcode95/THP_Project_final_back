@@ -4,7 +4,8 @@ class Api::CartsController < ApplicationController
 
   # PATCH/PUT /carts/1
   def update
-    if @cart.update(cart_params, paid: true)
+    @cart.paid = true
+    if @cart.update(cart_params)
       @new_cart = Cart.create(user_id: current_user.id)
       render json: { new_cart: @new_cart, old_cart: @cart }
     else
