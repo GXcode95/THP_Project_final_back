@@ -1,4 +1,5 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_order, only: [:update, :destroy]
   
 
@@ -37,7 +38,7 @@ class Api::OrdersController < ApplicationController
     end
 
     def set_current_cart
-      @current_cart = Cart.find_by( user_id: 6, paid: false )
+      @current_cart = Cart.find_by( user_id: current_user.id, paid: false )
       
       @cart_games = []
       @cart_packages = []
