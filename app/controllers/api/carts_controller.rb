@@ -1,5 +1,6 @@
 class Api::CartsController < ApplicationController
-  before_action :set_cart, only: [:update]
+  before_action :set_cart
+  before_action :authenticate_user!
 
   # PATCH/PUT /carts/1
   def update
