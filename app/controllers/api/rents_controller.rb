@@ -1,24 +1,22 @@
 class Api::RentsController < ApplicationController
-  before_action :set_rent, only: [:show, :update, :destroy]
+  before_action :set_rent, only: [:update, :destroy]
+  before_action :authenticate_user!
 
   # GET /rents
   def index
-    @rents = Rent.all
+    @rents = set_rents()
 
     render json: @rents
   end
 
-  # GET /rents/1
-  def show
-    render json: @rent
-  end
 
   # POST /rents
   def create
     @rent = Rent.new(rent_params)
 
     if @rent.save
-      render json: @rent, status: :created, location: @rent
+      @rents = set_rents()
+      render json: @rents, status: :created, location: @rent
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -27,7 +25,8 @@ class Api::RentsController < ApplicationController
   # PATCH/PUT /rents/1
   def update
     if @rent.update(rent_params)
-      render json: @rent
+      @rents = set_rents()
+      render json: @rents
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -35,10 +34,25 @@ class Api::RentsController < ApplicationController
 
   # DELETE /rents/1
   def destroy
-    @rent.destroy
+    @rent.destroy if @rent.status == "wishlist"
+    @rents = set_rents()
+    render json: @rents
   end
 
   private
+
+    def set_rents
+      @wishlist = Rent.where(user_id: current_user.id, status: "wishlist")
+      @rented = Rent.where(user_id: current_user.id, status: "rented")
+      @past_rentals = Rent.where(user_id: current_user.id, status: "past_rentals")
+
+      return {
+        wishlist: @wishlist,
+        rented: @rented,
+        pastRentals: @past_rentals
+      }
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_rent
       @rent = Rent.find(params[:id])
@@ -46,6 +60,6 @@ class Api::RentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rent_params
-      params.fetch(:rent, {})
+      params.permit(:quantity, :user_id, :game_id)
     end
 end
