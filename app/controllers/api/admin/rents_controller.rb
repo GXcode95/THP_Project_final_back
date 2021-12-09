@@ -1,4 +1,4 @@
-class Admin::RentsController < ApplicationController
+class Api::Admin::RentsController < ApplicationController
   before_action :authenticate_admin
 
   def index

@@ -19,7 +19,7 @@ class Api::Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    render json: user_response
+    render json: user_response(current_user)
   end
 
   def register_failed

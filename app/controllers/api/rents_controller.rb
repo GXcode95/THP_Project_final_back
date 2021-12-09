@@ -1,4 +1,4 @@
-class RentsController < ApplicationController
+class Api::RentsController < ApplicationController
   before_action :set_rent, only: [:show, :update, :destroy]
 
   # GET /rents

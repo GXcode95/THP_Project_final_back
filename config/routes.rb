@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'games#index'
-  namespace :api do
+  namespace :api, as: nil do
     resources :users, only: [:show, :update]
     devise_for :users,
     controllers: {

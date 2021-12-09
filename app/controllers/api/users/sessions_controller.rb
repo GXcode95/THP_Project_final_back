@@ -1,16 +1,16 @@
-class Users::SessionsController < Devise::SessionsController
+class Api::Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   private
 
   def respond_with(resource, _opts = {})
-    log_in_success && return if current_api_user
+    log_in_success && return if current_user
 
     log_in_failure
   end
 
   def respond_to_on_destroy
-    log_out_success && return if current_api_user
+    log_out_success && return if current_user
 
     log_out_failure
   end
@@ -24,7 +24,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def log_in_success
-    render json: user_response, status: :ok
+    render json: user_response(current_user), status: :ok
   end
 
   def log_in_failure
