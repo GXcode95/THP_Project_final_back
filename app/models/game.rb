@@ -1,5 +1,4 @@
 class Game < ApplicationRecord
-
     validates :name, presence: true
     validates :price, presence: true
     validates :creator, presence: true

@@ -1,4 +1,4 @@
-class GamesController < ApplicationController
+class Api::GamesController < ApplicationController
   before_action :set_game, only: [:show, :update, :destroy]
 
   # GET /games

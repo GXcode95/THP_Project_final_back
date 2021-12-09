@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_07_164926) do
+ActiveRecord::Schema.define(version: 2021_12_08_172953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
-    t.boolean "paid"
+    t.boolean "paid", default: false
     t.string "stripe_customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -76,6 +76,12 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
     t.index ["tag_id"], name: "index_join_game_and_tags_on_tag_id"
   end
 
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.bigint "cart_id"
     t.bigint "package_id"
@@ -110,7 +116,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
     t.bigint "game_id"
     t.bigint "user_id"
     t.integer "quantity"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_rents_on_game_id"
@@ -130,7 +136,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_164926) do
     t.string "last_name"
     t.string "address"
     t.string "phone"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.date "subscription_ending"
     t.bigint "package_id"
     t.string "reset_password_token"
