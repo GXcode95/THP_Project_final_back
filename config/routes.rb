@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     }
     namespace :admin do
       resources :users, only: [:index, :show]
-      resources :rents, only: [:index]
+      resources :rents, only: [:index, :update]
       resources :games, only: [:index, :create, :update, :destroy] do
         resources :images, only: [:create, :destroy]
       end
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :games, only: [:index, :show]
     resources :carts, only: [:update] # Add to be update when implementing stripes
     resources :orders, only: [:create, :update, :destroy]
-    resources :rents, only: [:index, :create, :destroy]
+    resources :rents, only: [:index, :create, :update, :destroy]
   end
   # features #
   # resources :tags
