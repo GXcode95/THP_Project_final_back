@@ -33,6 +33,7 @@ class Api::CartsController < ApplicationController
       month_total = now.mon + quantity
       if (month_total > 12)
         sub_end_mon = month_total % 12
+        sub_end_mon = 12 if sub_end_month == 0 # prevent to have a month '0'
         sub_end_year = now.year + (1 * month_total / 12)
       else
         sub_end_mon = month_total
