@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'games#index'
+  root to: 'api/games#index'
   namespace :api, as: nil do
     resources :users, only: [:show, :update]
     devise_for :users,
@@ -9,15 +9,15 @@ Rails.application.routes.draw do
     }
     namespace :admin do
       resources :users, only: [:index, :show]
-      resources :rents, only: [:index]
+      resources :rents, only: [:index, :update]
       resources :games, only: [:index, :create, :update, :destroy] do
         resources :images, only: [:create, :destroy]
       end
     end
-    resources :games, only: [:index]
+    resources :games, only: [:index, :show]
     resources :carts, only: [:update] # Add to be update when implementing stripes
     resources :orders, only: [:create, :update, :destroy]
-    resources :rents, only: [:index, :create, :destroy]
+    resources :rents, only: [:index, :create, :update, :destroy]
   end
   # features #
   # resources :tags
