@@ -33,11 +33,7 @@ class UsersController < ApplicationController
     @user= User.find(params[:id])
   end
 
-  def unauthorized_user
-    render json: { message: "Vous n'êtes pas le propriétaire de ce compte" }
-  end
-
   def user_params
-    params.require(:user).permit(:email , :last_name, :first_name, :phone, :address)
+    params.require(:user).permit(:email, :last_name, :first_name, :phone, :address)
   end
 end
