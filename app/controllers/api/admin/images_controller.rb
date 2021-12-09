@@ -1,4 +1,4 @@
-class Admin::ImagesController < ApplicationController
+class Api::Admin::ImagesController < ApplicationController
   before_action :authenticate_admin
 
   # POST /images

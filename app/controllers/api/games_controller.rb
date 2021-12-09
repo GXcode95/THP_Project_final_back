@@ -1,12 +1,16 @@
-class Admin::GamesController < ApplicationController
-  before_action :set_game, only: [:update, :destroy]
-  before_action :authenticate_admin
+class Api::GamesController < ApplicationController
+  before_action :set_game, only: [:show, :update, :destroy]
 
   # GET /games
   def index
     @games = Game.all
 
     render json: @games
+  end
+
+  # GET /games/1
+  def show
+    render json: @game
   end
 
   # POST /games

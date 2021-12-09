@@ -1,4 +1,4 @@
-class PackagesController < ApplicationController
+class Api::PackagesController < ApplicationController
   before_action :set_package, only: [:show, :update, :destroy]
 
   # GET /packages
