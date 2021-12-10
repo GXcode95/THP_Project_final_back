@@ -12,6 +12,8 @@ class Rent < ApplicationRecord
           rent.update(status: "rented")
         elsif (rent.status == "rented")
           rent.update(status: "past_rentals")
+          game = rent.game
+          game.update(rent_stock: (game.rent_stock + rent.quantity))
         else
         end
       end
