@@ -6,7 +6,7 @@ class Api::ChargesController < ApplicationController
     @total_price = @cart.total_price
     
     charge = Stripe::Charge.create(
-      :amount => @total_price,
+      :amount => @total_price*100,
       :description => 'Playbox Store',
       :currency => 'eur',
       :source => params[:id]
