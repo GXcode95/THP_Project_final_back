@@ -13,7 +13,7 @@ class Api::RentsController < ApplicationController
     @rent = Rent.new(rent_params)
 
     if @rent.save && is_subscribed?
-      render json: set_rents, status: :created, location: @rent
+      render json: set_rents(), status: :created, location: @rent
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class Api::RentsController < ApplicationController
   # PATCH/PUT /rents/1
   def update
     if @rent.update(rent_params) && is_subscribed?
-      render json: set_rents
+      render json: set_rents()
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class Api::RentsController < ApplicationController
   # DELETE /rents/1
   def destroy
     @rent.destroy if @rent.status == "wishlist"
-    render json: set_rents
+    render json: set_rents()
   end
 
   private
