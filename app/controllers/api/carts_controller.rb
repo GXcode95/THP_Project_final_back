@@ -6,7 +6,7 @@ class Api::CartsController < ApplicationController
     render json: { cart: {
       current_cart: @cart,
       current_games: @cart.games,
-      current_packages: @carte.packages
+      current_packages: @cart.packages
     }}
   end
 
