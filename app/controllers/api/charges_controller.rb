@@ -2,11 +2,11 @@ class Api::ChargesController < ApplicationController
   def create
     Stripe.api_key = ENV['SECRET_KEY']
     
-    @cart = Cart.find_by(user_id: 6, paid: false)
+    @cart = Cart.find_by(user_id: current_user, paid: false)
     @total_price = @cart.total_price
     
     charge = Stripe::Charge.create(
-      :amount => 100000,
+      :amount => @total_price,
       :description => 'Playbox Store',
       :currency => 'eur',
       :source => params[:id]
