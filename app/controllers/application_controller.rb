@@ -7,16 +7,16 @@ class ApplicationController < ActionController::API
     @current_cart = Cart.create(user_id: user.id) if @current_cart == nil
 
     cart = {
-      currentCart: @current_cart,
-      cartGames: @current_cart.games,
-      cartPackages: @current_cart.packages
+      current_cart: @current_cart,
+      cart_games: @current_cart.games,
+      cart_packages: @current_cart.packages
     }
 
     return { 
-      userInfo: user, 
-      rentedGames: @rented_games,
-      rentGames: @rent_games,
-      wishList: @wish_list,
+      user_info: user, 
+      rented_games: @rented_games,
+      rent_games: @rent_games,
+      wishlist: @wish_list,
       cart: cart
     }
   end
