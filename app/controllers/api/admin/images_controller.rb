@@ -6,7 +6,7 @@ class Api::Admin::ImagesController < ApplicationController
     @image = Image.new(image_params)
 
     if @image.save
-      render json: @image, status: :created, location: @image
+      render json: { messages: "L'image a bien été créée" }, status: :created, location: @image
     else
       render json: @image.errors, status: :unprocessable_entity
     end
@@ -16,6 +16,7 @@ class Api::Admin::ImagesController < ApplicationController
   def destroy
     @image = Image.find(params[:id])
     @image.destroy
+    render json: { messages: "L'image a bien été détruite"}
   end
 
   private
