@@ -44,3 +44,5 @@ gem 'devise-jwt'
 gem 'dotenv-rails'
 gem 'faker'
 gem 'table_print'
+
+gem 'stripe'
