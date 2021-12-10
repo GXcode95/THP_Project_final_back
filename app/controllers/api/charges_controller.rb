@@ -1,4 +1,6 @@
 class Api::ChargesController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     Stripe.api_key = ENV['SECRET_KEY']
     
