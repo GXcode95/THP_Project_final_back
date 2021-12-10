@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       end
     end
     resources :games, only: [:index, :show]
-    resources :carts, only: [:update] # Add to be update when implementing stripes
+    resources :carts, only: [:show, :update] # Add to be update when implementing stripes
     resources :orders, only: [:create, :update, :destroy]
     resources :rents, only: [:index, :create, :update, :destroy]
     resources :charges, only: [:create]
