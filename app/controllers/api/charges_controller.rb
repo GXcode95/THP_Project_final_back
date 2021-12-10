@@ -2,7 +2,7 @@ class Api::ChargesController < ApplicationController
   def create
     Stripe.api_key = ENV['SECRET_KEY']
     
-    @cart = Cart.find_by(user_id: current_user, paid: false)
+    @cart = Cart.find_by(user_id: current_user.id, paid: false)
     @total_price = @cart.total_price
     
     charge = Stripe::Charge.create(
@@ -11,9 +11,12 @@ class Api::ChargesController < ApplicationController
       :currency => 'eur',
       :source => params[:id]
     )
+
+    render json: { charge: charge } if charge.paid
+
     rescue => e
       error = e.message
-    
+
     return generate_response(error)
   end
 
