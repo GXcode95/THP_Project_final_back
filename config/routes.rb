@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :carts, only: [:update] # Add to be update when implementing stripes
     resources :orders, only: [:create, :update, :destroy]
     resources :rents, only: [:index, :create, :update, :destroy]
+    resources :charges, only: [:create]
   end
   # features #
   # resources :tags
