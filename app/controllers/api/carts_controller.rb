@@ -7,7 +7,7 @@ class Api::CartsController < ApplicationController
   end
 
   def index
-    render json: { cartHistory: user_cart_history() }
+    render json: user_cart_history()
   end
   
   def package_update
@@ -17,7 +17,7 @@ class Api::CartsController < ApplicationController
 
       update_user_subscription()
 
-      render json: { message: "Susbscibed !", packageCart: @cart }
+      render json: { message: "Susbscibed !", package_cart: @cart }
     else
       render json: @cart.errors, status: :unprocessable_entity
     end
