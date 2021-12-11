@@ -8,7 +8,7 @@ class Api::GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     
-    render json: @game
+    render json: {info: @game, images: @game.images}
   end
 
   private
