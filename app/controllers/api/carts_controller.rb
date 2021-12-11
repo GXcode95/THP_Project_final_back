@@ -1,21 +1,32 @@
 class Api::CartsController < ApplicationController
-  before_action :set_cart
+  before_action :set_cart, only: [:show, :update]
   before_action :authenticate_user!
   
   def show
     render json: { cart: user_response(current_user)[:cart] }
   end
 
+  def index
+    render json: { cartHistory: user_cart_history(current_user) }
+  end
+  
+  def package_update
+    if @cart.create(user_id: current_user.id, paid: true, stripe_customer_id: params[:stripe_customer_id])
+      @package = Package.find_by(id: params[:package_id].to_i)
+      @order = Order.create(package_id: @package.id, cart_id: @cart.id, quantity: params[:quantity].to_i)
+
+      update_user_subscription()
+
+      render json: { message: "Susbscibed !", packageCart: @cart }
+    else
+      render json: @cart.errors, status: :unprocessable_entity
+    end
+  end  
+
   # PATCH/PUT /carts/1
 
   def update
-    @cart.paid = true
-    if @cart.update(cart_params)
-
-      if (@cart.packages != nil)
-        update_user_subscription()
-      end
-
+    if @cart.update(paid: true, params[:stripe_customer_id])
       @new_cart = Cart.create(user_id: current_user.id)
       render json: { new_cart: @new_cart, old_cart: @cart }
     else
@@ -25,9 +36,12 @@ class Api::CartsController < ApplicationController
 
   private
 
+    def user_cart_history(user)
+      @past_carts = Cart.where(user_id: user.id, paid: false)
+      return @past_carts
+    end
+
     def update_user_subscription
-      @package = @cart.packages[0]
-      @order = Order.find_by(package_id: @package.id, cart_id: @cart.id)
       @subscription_ending = set_user_subscription_ending(@order.quantity)
 
       current_user.update(package_id: @package.id, subscription_ending: @subscription_ending) 
@@ -44,7 +58,6 @@ class Api::CartsController < ApplicationController
         sub_end_mon = month_total
         sub_end_year = now.year
       end
-
       return Date.new(sub_end_year, sub_end_mon, 1)
     end
 
@@ -55,6 +68,6 @@ class Api::CartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cart_params
-      params.permit(:user_id, :stripe_customer_id)
+      params.permit(:user_id, :stripe_customer_id, :package_id, :quantity)
     end
 end
