@@ -25,22 +25,8 @@ class Api::RentsController < ApplicationController
   # PATCH/PUT /rents/1
   def update
     quantity_diff = @rent.quantity - params[:quantity].to_i
-    p "%"*500
-    p params[:quantity]
-    p "%"*500
-    p params[:id]
-    p "%"*500
-    p rent_params
-    p "%"*500
-    p @rent
-    p "%"*500
-
 
     if @rent.update(rent_params) && is_subscribed?
-      p '@'*500
-      p @rent
-      p '@'*500
-
       update_game_rent_stock(quantity_diff)
  
       render json: user_response(current_user)
