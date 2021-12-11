@@ -7,7 +7,7 @@ class Api::CartsController < ApplicationController
   end
 
   def index
-    render json: { cartHistory: user_cart_history(current_user) }
+    render json: { cartHistory: user_cart_history() }
   end
   
   def package_update
@@ -36,9 +36,8 @@ class Api::CartsController < ApplicationController
 
   private
 
-    def user_cart_history(user)
-      @past_carts = Cart.where(user_id: user.id, paid: false)
-      return @past_carts
+    def user_cart_history()
+      return Cart.where(user_id: current_user.id, paid: false)
     end
 
     def update_user_subscription
