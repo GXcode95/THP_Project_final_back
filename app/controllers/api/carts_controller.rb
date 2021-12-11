@@ -5,7 +5,7 @@ class Api::CartsController < ApplicationController
   def show
     render json: { cart: user_response(current_user)[:cart] }
   end
-
+  
   def index
     render json: user_cart_history()
   end
@@ -37,7 +37,17 @@ class Api::CartsController < ApplicationController
   private
 
     def user_cart_history()
-      return Cart.where(user_id: current_user.id, paid: false)
+      @carts = Cart.where(user_id: current_user.id, paid: true)
+      @formatedCart = []
+
+      @carts.each do |cart|
+        @formatedCart.push({
+          cart: cart,
+          cart_price: cart.total_price
+        })
+      end
+
+      @formatedCart
     end
 
     def update_user_subscription
