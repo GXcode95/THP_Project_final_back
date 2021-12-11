@@ -43,12 +43,12 @@ class ApplicationController < ActionController::API
 
   def format_response (list)
     formated_list = []
-    p list
 
     list.each do |item|
       formated_list.push({
         game: item.game,
-        quantity: item.quantity
+        quantity: item.quantity,
+        rent_id: item.id
       })
     end
     
