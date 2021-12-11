@@ -1,9 +1,7 @@
 class Api::GamesController < ApplicationController
   # GET /games
   def index
-    @games = Game.all
-
-    render json: @games
+    render json: get_all_games()
   end
 
   # GET /games/1
@@ -11,5 +9,13 @@ class Api::GamesController < ApplicationController
     @game = Game.find(params[:id])
     
     render json: @game
+  end
+
+  private
+
+  def get_all_games
+    @all_games = Game.all
+
+    return @all_games.map { |game| { game: game, images: game.images } }
   end
 end
