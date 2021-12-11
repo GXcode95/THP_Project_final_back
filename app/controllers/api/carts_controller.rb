@@ -26,7 +26,7 @@ class Api::CartsController < ApplicationController
   # PATCH/PUT /carts/1
 
   def update
-    if @cart.update(paid: true, params[:stripe_customer_id])
+    if @cart.update(paid: true, stripe_customer_id: params[:stripe_customer_id])
       @new_cart = Cart.create(user_id: current_user.id)
       render json: { new_cart: @new_cart, old_cart: @cart }
     else
