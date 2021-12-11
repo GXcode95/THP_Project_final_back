@@ -3,11 +3,7 @@ class Api::CartsController < ApplicationController
   before_action :authenticate_user!
   
   def show
-    render json: { cart: {
-      current_cart: @cart,
-      current_games: @cart.games,
-      current_packages: @cart.packages
-    }}
+    render json: { cart: user_response(current_user)[:cart] }
   end
 
   # PATCH/PUT /carts/1
