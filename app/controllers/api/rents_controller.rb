@@ -53,7 +53,7 @@ class Api::RentsController < ApplicationController
       return {
         wishlist: @wishlist,
         rented: @rented,
-        pastRentals: @past_rentals
+        past_rentals: @past_rentals
       }
     end
 

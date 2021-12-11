@@ -52,9 +52,9 @@ class Api::OrdersController < ApplicationController
       end
 
       return cart = {
-        currentCart: @current_cart,
-        cartGames: @cart_games,
-        cartPackages: @cart_packages
+        current_cart: @current_cart,
+        cart_games: @cart_games,
+        cart_packages: @cart_packages
       }
     end
 

@@ -1,8 +1,13 @@
 class Api::CartsController < ApplicationController
   before_action :set_cart
   before_action :authenticate_user!
+  
+  def show
+    render json: { cart: user_response(current_user)[:cart] }
+  end
 
   # PATCH/PUT /carts/1
+
   def update
     @cart.paid = true
     if @cart.update(cart_params)
