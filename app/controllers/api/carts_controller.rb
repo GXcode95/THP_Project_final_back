@@ -5,8 +5,8 @@ class Api::CartsController < ApplicationController
   def show
     render json: { cart: {
       current_cart: @cart,
-      current_games: @cart.games,
-      current_packages: @cart.packages
+      cart_games: @cart.games,
+      cart_packages: @cart.packages
     }}
   end
 
