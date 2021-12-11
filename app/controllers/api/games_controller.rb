@@ -16,6 +16,6 @@ class Api::GamesController < ApplicationController
   def get_all_games
     @all_games = Game.all
 
-    return @all_games.map { |game| { game: game, images: game.images } }
+    return @all_games.map { |game| { info: game, images: game.images } }
   end
 end
