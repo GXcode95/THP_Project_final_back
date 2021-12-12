@@ -2,7 +2,7 @@ class Api::ChargesController < ApplicationController
   before_action :authenticate_user!
   
   def create
-    Stripe.api_key = ENV['SECRET_KEY']
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     containPackage = params[:package][:presence]
 
     if containPackage
@@ -26,8 +26,8 @@ class Api::ChargesController < ApplicationController
       render json: { charge: charge }
     end
 
-    rescue => e
-      render json: { error: e.message }
+    # rescue => e
+    #   render json: { error: e.message }
   end
 
   private

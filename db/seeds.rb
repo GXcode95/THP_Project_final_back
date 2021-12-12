@@ -26,9 +26,23 @@ require 'faker'
 end
 
 Package.create(
+    game_number:1,
+    name:"Débutant",
+    price: 1000
+    )
+puts 'Package crée'
+
+Package.create(
     game_number:2,
-    name:"Abo Rsa",
-    price: 9.99
+    name:"Habitué",
+    price: 1500
+    )
+puts 'Package crée'
+
+Package.create(
+    game_number:4,
+    name:"Exper",
+    price: 2000
     )
 puts 'Package crée'
 
