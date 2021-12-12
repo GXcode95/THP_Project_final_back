@@ -1,15 +1,8 @@
 class Api::Admin::ImagesController < ApplicationController
   before_action :authenticate_admin
 
-  # POST /images
   def create
-    @image = Image.new(image_params)
-
-    if @image.save
-      render json: { messages: "L'image a bien été créée" }, status: :created, location: @image
-    else
-      render json: @image.errors, status: :unprocessable_entity
-    end
+    @game = Game.find(params[:id])
   end
 
   # DELETE /images/1
