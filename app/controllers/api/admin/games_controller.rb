@@ -14,10 +14,14 @@ class Api::Admin::GamesController < ApplicationController
     @game = Game.new(game_params)
 
     if @game.save
+      params[:images].each do |image|
+        Image.create(game_id: @game.id, public_id: image)
+      end
       render json: @game, status: :created, location: @game
     else
       render json: @game.errors, status: :unprocessable_entity
     end
+
   end
 
   # PATCH/PUT /games/1
