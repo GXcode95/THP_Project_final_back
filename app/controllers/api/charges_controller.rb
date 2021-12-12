@@ -1,5 +1,5 @@
 class Api::ChargesController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   
   def create
     Stripe.api_key = ENV['SECRET_KEY']
@@ -48,12 +48,12 @@ class Api::ChargesController < ApplicationController
   def update_user_subscription
     @subscription_ending = set_user_subscription_ending(@order.quantity)
 
-    User.find(6).update(package_id: @package.id, subscription_ending: @subscription_ending) 
+    current_user.update(package_id: @package.id, subscription_ending: @subscription_ending) 
   end  
 
   def set_user_subscription_ending(quantity)
-    if  User.find(6).subscription_ending
-      current_date = User.find(6).subscription_ending
+    if  current_user.subscription_ending
+      current_date = current_user.subscription_ending
     else
       current_date = Time.now.to_date
     end
