@@ -1,6 +1,10 @@
 class Api::Admin::ImagesController < ApplicationController
   before_action :authenticate_admin
 
+  def create
+    @game = Game.find(params[:id])
+  end
+
   # DELETE /images/1
   def destroy
     @image = Image.find(params[:id])
