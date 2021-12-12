@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'games#index'
+  root to: 'api/games#index'
   namespace :api, as: nil do
     resources :users, only: [:show, :update]
     devise_for :users,
@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       end
     end
     resources :games, only: [:index, :show]
-    resources :carts, only: [:update] # Add to be update when implementing stripes
+    resources :carts, only: [:show, :index, :update] # Add to be update when implementing stripes
+    put '/carts_package_update', to: 'carts#package_update'
+    resources :packages, only: [:index]
     resources :orders, only: [:create, :update, :destroy]
     resources :rents, only: [:index, :create, :update, :destroy]
     resources :charges, only: [:create]
@@ -25,6 +27,5 @@ Rails.application.routes.draw do
   # resources :ranks
   # resources :comments
   # resources :favorites
-  # resources :packages
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
