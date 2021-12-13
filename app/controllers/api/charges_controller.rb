@@ -24,8 +24,14 @@ class Api::ChargesController < ApplicationController
       render json: current_user
     elsif charge.paid
       if @cart.update(paid: true, stripe_customer_id: charge.id)
+
+        @cart.games.each do |game|
+          game_order = Order.find_by(cart_id: @cart.id, game_id: game.id)
+          game_sell_stock_update(game, game_order.quantity)
+        end
+
         @new_cart = Cart.create(user_id: current_user.id)
-        render json: @new_cart
+        render json: { message: "Game paid successfully" }
       else
         render json: @cart.errors, status: :unprocessable_entity
       end
@@ -74,5 +80,10 @@ class Api::ChargesController < ApplicationController
       sub_end_year = current_date.year
     end
     return Date.new(sub_end_year, sub_end_month, 1)
+  end
+
+  def game_sell_stock_update(game, quantity)
+    sell_stock = game.sell_stock
+    game.update(sell_stock: sell_stock - quantity)
   end
 end

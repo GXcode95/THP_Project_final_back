@@ -17,6 +17,6 @@ class Api::Admin::PackagesController < ApplicationController
     end
 
     def package_params
-      params.permit(:game_number, :name, :price)
+      params.permit(:game_number, :name, :price, :description)
     end
 end

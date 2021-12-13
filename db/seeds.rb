@@ -28,21 +28,30 @@ end
 Package.create(
     game_number:1,
     name:"Débutant",
-    price: 1000
+    price: 1000,
+    description: "Location d'un jeu maximum simultanément / mois.\n
+     Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+     A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
 Package.create(
     game_number:2,
     name:"Habitué",
-    price: 1500
+    price: 1500,
+    description: "Location de 2 jeux maximum simultanément / mois.\n
+    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
 Package.create(
     game_number:4,
-    name:"Exper",
-    price: 2000
+    name:"Expert",
+    price: 2000,
+    description: "Location de 4 jeux maximum simultanément / mois.\n
+    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
