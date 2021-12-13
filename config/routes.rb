@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     put '/carts_package_update', to: 'carts#package_update'
     resources :packages, only: [:index]
     resources :orders, only: [:create, :update, :destroy]
-    resources :rents, only: [:index, :create, :update, :destroy]
+    resources :rents, only: [:create, :update, :destroy]
     resources :charges, only: [:create]
     resources :tags, only: [:index]
     resources :ranks, only: [:create]
