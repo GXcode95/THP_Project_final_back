@@ -27,7 +27,7 @@ class User < ApplicationRecord
     favorites_games = []
 
     self.favorites.each do |favorite|
-      favorites_games.push(favorite.game.id)
+      favorites_games.push(favorite.game)
     end
 
     return @favorites_games
