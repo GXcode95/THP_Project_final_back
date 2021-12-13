@@ -1,5 +1,5 @@
 class Api::CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :update]
+  before_action :set_cart, only: [:show]
   before_action :authenticate_user!
   
   def show
