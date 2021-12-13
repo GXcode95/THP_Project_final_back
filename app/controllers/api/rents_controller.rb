@@ -16,7 +16,7 @@ class Api::RentsController < ApplicationController
     
     if @rent.save && is_subscribed?
       update_game_rent_stock(-@rent.quantity)
-      render json: set_rents(), status: :created, location: @rent
+      render json: user_response(current_user), status: :created, location: @rent
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -24,13 +24,12 @@ class Api::RentsController < ApplicationController
 
   # PATCH/PUT /rents/1
   def update
-    
     quantity_diff = @rent.quantity - params[:quantity].to_i
 
     if @rent.update(rent_params) && is_subscribed?
       update_game_rent_stock(quantity_diff)
  
-      render json: set_rents()
+      render json: user_response(current_user)
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -40,23 +39,10 @@ class Api::RentsController < ApplicationController
   def destroy
     update_game_rent_stock(@rent.quantity)
     @rent.destroy if @rent.status == "wishlist"
-    render json: set_rents()
+    render json: user_response(current_user)
   end
 
   private
-
-    def set_rents
-      @wishlist = Rent.where(user_id: current_user.id, status: "wishlist")
-      @rented = Rent.where(user_id: current_user.id, status: "rented")
-      @past_rentals = Rent.where(user_id: current_user.id, status: "past_rentals")
-
-      return {
-        wishlist: @wishlist,
-        rented: @rented,
-        past_rentals: @past_rentals
-      }
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_rent
       @rent = Rent.find(params[:id])

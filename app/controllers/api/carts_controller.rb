@@ -1,34 +1,19 @@
 class Api::CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :update]
+  before_action :set_cart, only: [:show]
   before_action :authenticate_user!
   
   def show
-    render json: { cart: user_response(current_user)[:cart] }
-  end
-
-  def index
-    render json: { cartHistory: user_cart_history() }
+    render json: setup_cart_response(@cart)
   end
   
-  def package_update
-    if @cart.create(user_id: current_user.id, paid: true, stripe_customer_id: params[:stripe_customer_id])
-      @package = Package.find_by(id: params[:package_id].to_i)
-      @order = Order.create(package_id: @package.id, cart_id: @cart.id, quantity: params[:quantity].to_i)
-
-      update_user_subscription()
-
-      render json: { message: "Susbscibed !", packageCart: @cart }
-    else
-      render json: @cart.errors, status: :unprocessable_entity
-    end
-  end  
-
-  # PATCH/PUT /carts/1
+  def index
+    render json: user_cart_history()
+  end
 
   def update
-    if @cart.update(paid: true, params[:stripe_customer_id])
+    if @cart.update(paid: true, stripe_customer_id: params[:stripe_customer_id])
       @new_cart = Cart.create(user_id: current_user.id)
-      render json: { new_cart: @new_cart, old_cart: @cart }
+      render json: setup_cart_response(@new_cart)
     else
       render json: @cart.errors, status: :unprocessable_entity
     end
@@ -37,27 +22,29 @@ class Api::CartsController < ApplicationController
   private
 
     def user_cart_history()
-      return Cart.where(user_id: current_user.id, paid: false)
-    end
+      @carts = Cart.where(user_id: current_user.id, paid: true)
+      @formatedCart = []
+      @cart_games = []
+      @cart_package = []
 
-    def update_user_subscription
-      @subscription_ending = set_user_subscription_ending(@order.quantity)
+      @carts.each do |cart|
+        cart.games.each do |game|
+          @cart_games.push({game: game, quantity: Order.find_by(game_id: game.id, cart_id: cart.id).quantity})
+        end
+  
+        cart.packages.each do |package|
+          @cart_packages.push({package: package, quantity: Order.find_by(package_id: package.id, cart_id: cart.id).quantity})
+        end
 
-      current_user.update(package_id: @package.id, subscription_ending: @subscription_ending) 
-    end  
-
-    def set_user_subscription_ending(quantity)
-      now = Time.now.to_date
-      month_total = now.mon + quantity
-      if (month_total > 12)
-        sub_end_mon = month_total % 12
-        sub_end_mon = 12 if sub_end_month == 0 # prevent to have a month '0'
-        sub_end_year = now.year + (1 * month_total / 12)
-      else
-        sub_end_mon = month_total
-        sub_end_year = now.year
+        @formatedCart.push({
+          cart: cart,
+          cart_games: @cart_games,
+          cart_packages: @cart_packages,
+          cart_price: cart.total_price
+        })
       end
-      return Date.new(sub_end_year, sub_end_mon, 1)
+
+      @formatedCart
     end
 
     # Use callbacks to share common setup or constraints between actions.

@@ -26,9 +26,23 @@ require 'faker'
 end
 
 Package.create(
+    game_number:1,
+    name:"Débutant",
+    price: 1000
+    )
+puts 'Package crée'
+
+Package.create(
     game_number:2,
-    name:"Abo Rsa",
-    price: 9.99
+    name:"Habitué",
+    price: 1500
+    )
+puts 'Package crée'
+
+Package.create(
+    game_number:4,
+    name:"Exper",
+    price: 2000
     )
 puts 'Package crée'
 
@@ -69,7 +83,7 @@ puts "Admin crée"
         address: ((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
         phone: "0" + rand(100000000..999999999).to_s,
         admin: false,
-        subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
+        # subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
         package_id:1
         )
     puts 'User crée'
