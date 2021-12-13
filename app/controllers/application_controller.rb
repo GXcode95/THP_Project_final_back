@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
     return { 
       user_info: user,
       rent: setup_rent_response(user),
-      cart: setup_cart_response(),
+      cart: setup_cart_response(@current_cart),
       favorites: user.favorites_games
     }
   end
