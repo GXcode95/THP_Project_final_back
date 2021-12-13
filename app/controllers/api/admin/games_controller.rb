@@ -6,7 +6,7 @@ class Api::Admin::GamesController < ApplicationController
   def index
     @games = Game.all
 
-    render json: @games
+    render json: get_all_games()
   end
 
   # POST /games
@@ -17,7 +17,7 @@ class Api::Admin::GamesController < ApplicationController
       params[:images].each do |image|
         Image.create(game_id: @game.id, public_id: image)
       end
-      render json: @game, status: :created, location: @game
+      render json: get_all_games(), status: :created, location: @game
     else
       render json: @game.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class Api::Admin::GamesController < ApplicationController
   # PATCH/PUT /games/1
   def update
     if @game.update(game_params)
-      render json: @game
+      render json: get_all_games()
     else
       render json: @game.errors, status: :unprocessable_entity
     end
@@ -36,6 +36,7 @@ class Api::Admin::GamesController < ApplicationController
   # DELETE /games/1
   def destroy
     @game.destroy
+    render json: get_all_games()
   end
 
   private

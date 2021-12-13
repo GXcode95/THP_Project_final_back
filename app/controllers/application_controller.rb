@@ -67,4 +67,10 @@ class ApplicationController < ActionController::API
     }
   end
 
+  def get_all_games
+    @all_games = Game.all
+
+    return @all_games.map { |game| { info: game, images: game.images, rank: game.get_global_rank(), tags: game.tags } }
+  end
+
 end
