@@ -21,9 +21,14 @@ class Api::ChargesController < ApplicationController
 
     if charge.paid && containPackage
       package_update(charge)
-      render json: user_response(current_user)
+      render json: current_user
     elsif charge.paid
-      render json: { charge: charge }
+      if @cart.update(paid: true, stripe_customer_id: charge.id)
+        @new_cart = Cart.create(user_id: current_user.id)
+        render json: @new_cart
+      else
+        render json: @cart.errors, status: :unprocessable_entity
+      end
     end
 
     # rescue => e
