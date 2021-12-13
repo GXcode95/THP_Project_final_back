@@ -16,4 +16,13 @@ class Game < ApplicationRecord
     has_many :comments
     has_many :favorites
     has_many :orders
+
+    def get_global_rank
+        rank_counter = 0
+        number_of_rank = self.ranks.length
+        self.ranks.each do |rank|
+            rank_counter += rank.note
+        end
+        return rank_counter / number_of_rank
+    end    
 end
