@@ -23,9 +23,9 @@ Rails.application.routes.draw do
     resources :rents, only: [:index, :create, :update, :destroy]
     resources :charges, only: [:create]
     resources :tags, only: [:index]
+    resources :ranks, only: [:create]
   end
   # features #
-  # resources :ranks
   # resources :comments
   # resources :favorites
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
