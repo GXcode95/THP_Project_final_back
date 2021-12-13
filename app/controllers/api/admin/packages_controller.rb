@@ -1,11 +1,6 @@
 class Api::Admin::PackagesController < ApplicationController
-  before_action :set_package, only: [:update]
-
-  def index
-    @packages = Package.all
-
-    render json: @packages
-  end
+  before_action :set_package
+  before_action :authenticate_admin
 
   def update
     if @package.update(package_params)
@@ -16,13 +11,12 @@ class Api::Admin::PackagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+ 
     def set_package
       @package = Package.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def package_params
-      params.require(:package).permit(:game_number, :name, :price)
+      params.permit(:game_number, :name, :price)
     end
 end
