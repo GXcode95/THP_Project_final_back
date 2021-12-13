@@ -17,9 +17,8 @@ Rails.application.routes.draw do
       resources :tags, only: [:create, :update, :destroy]
     end
     resources :games, only: [:index, :show]
-    resources :carts, only: [:show, :index]
-    put '/carts_package_update', to: 'carts#package_update'
-    
+    resources :carts, only: [:show, :index] # Add to be update when implementing stripes
+    resources :packages, only: [:index]
     resources :orders, only: [:create, :update, :destroy]
     resources :packages, only: [:index]
     resources :rents, only: [:create, :update, :destroy]

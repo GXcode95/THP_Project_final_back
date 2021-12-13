@@ -41,29 +41,19 @@ class ApplicationController < ActionController::API
     return formated_list
   end
 
-  def setup_cart_response
+  def setup_cart_response (cart)
     @cart_games = []
 
-    @current_cart.games.each do |game|
+    cart.games.each do |game|
       @cart_games.push({
         game: game,
-        quantity: Order.find_by(cart_id: @current_cart.id, game_id: game.id).quantity
-      })
-    end
-
-    @cart_packages = []
-
-    @current_cart.games.each do |package|
-      @cart_packages.push({
-        package: package,
-        quantity: Order.find_by(cart_id: @current_cart.id, package_id: package.id).quantity
+        quantity: Order.find_by(cart_id: cart.id, game_id: game.id).quantity
       })
     end
 
     return {
-      current_cart: @current_cart,
-      cart_games: @cart_games,
-      cart_packages: @cart_packages
+      current_cart: cart,
+      cart_games: @cart_games
     }
   end
 
