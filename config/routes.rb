@@ -25,8 +25,7 @@ Rails.application.routes.draw do
     resources :tags, only: [:index]
     resources :ranks, only: [:create]
     resources :favorites, only: [:create, :destroy]
+    resources :comments, only: [:create, :update, :destroy]
   end
-  # features #
-  # resources :comments
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
