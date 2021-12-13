@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :games, only: [:index, :create, :update, :destroy] do
         resources :images, only: [:create, :destroy]
       end
+      resources :tags, only: [:create, :update, :destroy]
     end
     resources :games, only: [:index, :show]
     resources :carts, only: [:show, :index, :update] # Add to be update when implementing stripes
@@ -21,11 +22,10 @@ Rails.application.routes.draw do
     resources :orders, only: [:create, :update, :destroy]
     resources :rents, only: [:index, :create, :update, :destroy]
     resources :charges, only: [:create]
+    resources :tags, only: [:index]
+    resources :ranks, only: [:create]
+    resources :favorites, only: [:create, :destroy]
+    resources :comments, only: [:create, :update, :destroy]
   end
-  # features #
-  # resources :tags
-  # resources :ranks
-  # resources :comments
-  # resources :favorites
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
