@@ -5,24 +5,29 @@ class ApplicationController < ActionController::API
   end
 
   def user_response(user)
-    @wish_list = Rent.where(user_id: user.id, status: "wishlist")
-    @rent_games = Rent.where(user_id: user.id, status: "rented")
-    @rented_games = Rent.where(user_id: user.id, status: "past_rentals")
-
     @current_cart = Cart.find_by(user_id: user.id, paid: false)
     @current_cart = Cart.create(user_id: user.id) if @current_cart == nil
   
     return { 
       user_info: user,
-      rented_games: setup_rent_response(@rented_games),
-      rent_games: setup_rent_response(@rent_games),
-      wishlist: setup_rent_response(@wish_list),
-      cart: setup_cart_response(@current_cart),
+      rent: setup_rent_response(user),
+      cart: setup_cart_response(),
       favorites: user.favorites_games
     }
   end
 
-  def setup_rent_response(list)
+  def setup_rent_response(user)
+    @wish_list = Rent.where(user_id: user.id, status: "wishlist")
+    @rent_games = Rent.where(user_id: user.id, status: "rented")
+    @rented_games = Rent.where(user_id: user.id, status: "past_rentals")
+    return {
+      rented_games: format_rent_response(@rented_games),
+      rent_games: format_rent_response(@rent_games),
+      wishlist: format_rent_response(@wish_list)
+    }
+  end
+
+  def format_rent_response(list)
     formated_list = []
 
     list.each do |item|
@@ -50,6 +55,12 @@ class ApplicationController < ActionController::API
       current_cart: cart,
       cart_games: @cart_games
     }
+  end
+
+  def get_all_games
+    @all_games = Game.all
+
+    return @all_games.map { |game| { info: game, images: game.images, rank: game.get_global_rank(), tags: game.tags } }
   end
 
 end

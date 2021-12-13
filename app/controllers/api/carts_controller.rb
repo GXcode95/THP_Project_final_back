@@ -2,23 +2,14 @@ class Api::CartsController < ApplicationController
   before_action :set_cart, only: [:show]
   before_action :authenticate_user!
   
+   def index
+    render json: user_cart_history()
+  end
+  
   def show
     render json: setup_cart_response(@cart)
   end
   
-  def index
-    render json: user_cart_history()
-  end
-
-  def update
-    if @cart.update(paid: true, stripe_customer_id: params[:stripe_customer_id])
-      @new_cart = Cart.create(user_id: current_user.id)
-      render json: setup_cart_response(@new_cart)
-    else
-      render json: @cart.errors, status: :unprocessable_entity
-    end
-  end
-
   private
 
     def user_cart_history()
@@ -47,12 +38,10 @@ class Api::CartsController < ApplicationController
       @formatedCart
     end
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_cart
       @cart = Cart.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def cart_params
       params.permit(:user_id, :stripe_customer_id, :package_id, :quantity)
     end

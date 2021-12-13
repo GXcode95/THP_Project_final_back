@@ -3,12 +3,6 @@ class Api::RentsController < ApplicationController
   before_action :set_game, only: [:update, :destroy]
   before_action :authenticate_user!
 
-  # GET /rents
-  def index
-    render json: set_rents()
-  end
-
-
   # POST /rents
   def create
     @rent = Rent.new(rent_params)
@@ -16,7 +10,7 @@ class Api::RentsController < ApplicationController
     
     if @rent.save && is_subscribed?
       update_game_rent_stock(-@rent.quantity)
-      render json: user_response(current_user), status: :created, location: @rent
+      render json: setup_rent_response(current_user), status: :created, location: @rent
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -29,7 +23,7 @@ class Api::RentsController < ApplicationController
     if @rent.update(rent_params) && is_subscribed?
       update_game_rent_stock(quantity_diff)
  
-      render json: user_response(current_user)
+      render json: setup_rent_response(current_user)
     else
       render json: @rent.errors, status: :unprocessable_entity
     end
@@ -39,7 +33,7 @@ class Api::RentsController < ApplicationController
   def destroy
     update_game_rent_stock(@rent.quantity)
     @rent.destroy if @rent.status == "wishlist"
-    render json: user_response(current_user)
+    render json: setup_rent_response(current_user)
   end
 
   private
