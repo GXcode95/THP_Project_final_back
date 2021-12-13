@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
       rent_games: setup_rent_response(@rent_games),
       wishlist: setup_rent_response(@wish_list),
       cart: setup_cart_response(),
-      favorites: setup_favorites_games_response()
+      favorites: user.favorites_games
     }
   end
 
@@ -60,16 +60,6 @@ class ApplicationController < ActionController::API
       cart_games: @cart_games,
       cart_packages: @cart_packages
     }
-  end
-
-  def setup_favorites_games_response
-    @favorites_games = []
-
-    user.favorites.each do |favorite|
-      @favorites_games.push(favorite.game.id)
-    end
-
-    return @favorites_games
   end
 
 end

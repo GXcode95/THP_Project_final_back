@@ -3,9 +3,9 @@ class Api::RanksController < ApplicationController
 
   def create
     @rank = Rank.new(rank_params)
-
+    
     if @rank.save
-      render json: @rank, status: :created, location: @rank
+      redirect_to game_path(@rank.game)
     else
       render json: @rank.errors, status: :unprocessable_entity
     end

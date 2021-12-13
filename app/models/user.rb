@@ -22,4 +22,14 @@ class User < ApplicationRecord
   def welcome_send
     UserMailer.welcome_email(self).deliver_now
   end
+
+  def favorites_games
+    favorites_games = []
+
+    self.favorites.each do |favorite|
+      favorites_games.push(favorite.game.id)
+    end
+
+    return @favorites_games
+  end
 end
