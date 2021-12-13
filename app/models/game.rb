@@ -23,6 +23,6 @@ class Game < ApplicationRecord
         self.ranks.each do |rank|
             rank_counter += rank.note
         end
-        return rank_counter / number_of_rank
+        return number_of_rank == 0 ? 0 : rank_counter / number_of_rank
     end    
 end

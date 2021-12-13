@@ -7,7 +7,8 @@ class Api::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      @game = @comment.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -16,7 +17,8 @@ class Api::CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
-      render json: @comment
+      @game = @comment.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -24,7 +26,9 @@ class Api::CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
+    @game = @comment.game
     @comment.destroy
+    render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
   end
 
   private

@@ -7,7 +7,7 @@ class Api::FavoritesController < ApplicationController
     @favorite = Favorite.new(favorite_params)
 
     if @favorite.save
-      render json: @favorite, status: :created, location: @favorite
+      render json: current_user.favorites_games
     else
       render json: @favorite.errors, status: :unprocessable_entity
     end
@@ -16,6 +16,7 @@ class Api::FavoritesController < ApplicationController
   # DELETE /favorites/1
   def destroy
     @favorite.destroy
+    render json: current_user.favorites_games
   end
 
   private
