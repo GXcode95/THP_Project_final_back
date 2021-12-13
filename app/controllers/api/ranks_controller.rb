@@ -5,7 +5,8 @@ class Api::RanksController < ApplicationController
     @rank = Rank.new(rank_params)
     
     if @rank.save
-      redirect_to game_path(@rank.game)
+      @game = @rank.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @rank.errors, status: :unprocessable_entity
     end
