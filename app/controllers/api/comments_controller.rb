@@ -4,7 +4,7 @@ class Api::CommentsController < ApplicationController
   
   # POST /comments
   def create
-    @comment = Comment.new(comment_params)
+    @comment = Comment.new(user_id: current_user.id, game_id: params[:game_id], content: params[:content])
 
     if @comment.save
       @game = @comment.game
