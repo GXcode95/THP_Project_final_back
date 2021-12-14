@@ -7,7 +7,7 @@ class Api::CartsController < ApplicationController
   end
   
   def show
-    render json: setup_cart_response(@cart)
+    render json: { cart: setup_cart_response(@cart) }
   end
   
   private
