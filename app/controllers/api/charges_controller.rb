@@ -31,14 +31,14 @@ class Api::ChargesController < ApplicationController
         end
 
         @new_cart = Cart.create(user_id: current_user.id)
-        render json: { message: "Game paid successfully" }
+        render json: { cart: @new_cart, command_history: user_cart_history() }
       else
         render json: @cart.errors, status: :unprocessable_entity
       end
     end
 
-    # rescue => e
-    #   render json: { error: e.message }
+    rescue => e
+      render json: { error: e.message }
   end
 
   private
