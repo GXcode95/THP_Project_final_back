@@ -60,7 +60,14 @@ class ApplicationController < ActionController::API
   def get_all_games
     @all_games = Game.all
 
-    return @all_games.map { |game| { info: game, images: game.images, rank: game.get_global_rank(), tags: game.tags } }
+    return @all_games.map { |game| { info: game, images: get_game_public_id(game), rank: game.get_global_rank(), tags: game.tags } }
   end
 
+  def get_game_public_id(game)
+    images = []
+    game.images.each do |image|
+      images << image.public_id 
+    end
+    images
+  end
 end
