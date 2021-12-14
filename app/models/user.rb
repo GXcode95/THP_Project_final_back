@@ -30,6 +30,6 @@ class User < ApplicationRecord
       favorites_games.push(favorite.game)
     end
 
-    return @favorites_games
+    return favorites_games
   end
 end
