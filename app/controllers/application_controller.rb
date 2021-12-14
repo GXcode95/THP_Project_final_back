@@ -71,12 +71,15 @@ class ApplicationController < ActionController::API
     @cart_games = []
 
     cart.games.each do |game|
+      game_order = Order.find_by(cart_id: cart.id, game_id: game.id)
+      
       @cart_games.push({
         game: game,
-        quantity: Order.find_by(cart_id: cart.id, game_id: game.id).quantity
+        quantity: game_order.quantity,
+        order_id: game_order.id
       })
     end
-
+    
     return {
       current_cart: cart,
       cart_games: @cart_games

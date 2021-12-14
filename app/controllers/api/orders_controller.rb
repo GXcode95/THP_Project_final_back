@@ -1,5 +1,6 @@
 class Api::OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_current_cart
   before_action :set_order, only: [:update, :destroy]
   
 
@@ -8,8 +9,7 @@ class Api::OrdersController < ApplicationController
     @order = Order.new(order_params)
     
     if @order.save
-      cart = set_current_cart()
-      render json: cart, status: :created
+      render json: setup_cart_response(@current_cart), status: :created
     else
       render json: @order.errors, status: :unprocessable_entity
     end
@@ -18,8 +18,7 @@ class Api::OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   def update
     if @order.update(order_params)
-      cart = set_current_cart()
-      render json: cart
+      render json: setup_cart_response(@current_cart)
     else
       render json: @order.errors, status: :unprocessable_entity
     end
@@ -28,8 +27,7 @@ class Api::OrdersController < ApplicationController
   # DELETE /orders/1
   def destroy
     @order.destroy
-    cart = set_current_cart()
-    render json: cart
+    render json: setup_cart_response(@current_cart)
   end
 
   private
@@ -39,23 +37,6 @@ class Api::OrdersController < ApplicationController
 
     def set_current_cart
       @current_cart = Cart.find_by( user_id: current_user.id, paid: false )
-      
-      @cart_games = []
-      @cart_packages = []
-
-      @current_cart.games.each do |game|
-        @cart_games.push(Order.where(cart_id: @current_cart.id, game_id: game.id))
-      end
-
-      @current_cart.packages.each do |package|
-        @cart_packages.push(Order.where(cart_id: @current_cart.id, package_id: package.id))
-      end
-
-      return cart = {
-        current_cart: @current_cart,
-        cart_games: @cart_games,
-        cart_packages: @cart_packages
-      }
     end
 
     def order_params
