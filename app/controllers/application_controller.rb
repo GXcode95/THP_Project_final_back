@@ -75,6 +75,7 @@ class ApplicationController < ActionController::API
       
       @cart_games.push({
         game: game,
+        images: get_game_public_id(game),
         quantity: game_order.quantity,
         order_id: game_order.id
       })
