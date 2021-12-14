@@ -1,5 +1,5 @@
 class Api::FavoritesController < ApplicationController
-  before_action :set_favorite, only: [:destroy]
+  before_action :set_game, only: [:destroy]
   before_action :authenticate_user!
 
   # POST /favorites
@@ -15,14 +15,15 @@ class Api::FavoritesController < ApplicationController
 
   # DELETE /favorites/1
   def destroy
+    @favorite = Favorite.find_by(user_id: current_user.id, game_id: @game.id)
     @favorite.destroy
     render json: current_user.favorites_games
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_favorite
-      @favorite = Favorite.find(params[:id])
+    def set_game
+      @game = Game.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
