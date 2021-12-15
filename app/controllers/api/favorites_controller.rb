@@ -2,12 +2,16 @@ class Api::FavoritesController < ApplicationController
   before_action :set_game, only: [:destroy]
   before_action :authenticate_user!
 
+  def index
+    render json: favorites_games(current_user)
+  end
+
   # POST /favorites
   def create
     @favorite = Favorite.new(favorite_params)
 
     if @favorite.save
-      render json: current_user.favorites_games
+      render json: favorites_games(current_user)
     else
       render json: @favorite.errors, status: :unprocessable_entity
     end
@@ -17,7 +21,7 @@ class Api::FavoritesController < ApplicationController
   def destroy
     @favorite = Favorite.find_by(user_id: current_user.id, game_id: @game.id)
     @favorite.destroy
-    render json: current_user.favorites_games
+    render json: favorites_games(current_user)
   end
 
   private
