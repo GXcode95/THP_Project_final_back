@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
       user_info: user,
       rent: setup_rent_response(user),
       cart: setup_cart_response(@current_cart),
-      favorites: user.favorites_games
+      favorites: favorites_games(user)
     }
   end
 
@@ -102,5 +102,15 @@ class ApplicationController < ActionController::API
       images << image.public_id 
     end
     images
+  end
+
+  def favorites_games(user)
+    favorites_games = []
+
+    user.favorites.each do |favorite|
+      favorites_games.push({ info:favorite.game, images: get_game_public_id(favorite.game) })
+    end
+
+    return favorites_games
   end
 end
