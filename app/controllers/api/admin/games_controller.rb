@@ -14,8 +14,12 @@ class Api::Admin::GamesController < ApplicationController
     @game = Game.new(game_params)
 
     if @game.save
+
       params[:images].each do |image|
         Image.create(game_id: @game.id, public_id: image)
+      end
+      params[:tags].each do |tag|
+        JoinGameAndTag.create(game_id: @game.id, tag_id: tag)
       end
       render json: get_all_games(), status: :created, location: @game
     else
@@ -43,7 +47,7 @@ class Api::Admin::GamesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
-    end
+    end     
 
     # Only allow a list of trusted parameters through.
     def game_params

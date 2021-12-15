@@ -10,7 +10,7 @@ class Api::GamesController < ApplicationController
     if current_user 
       render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, isRanked: is_ranked(@game, current_user) }
     else
-       render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, isRanked: null }
+       render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, isRanked: nil }
     end
   end
 
