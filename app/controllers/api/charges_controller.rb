@@ -21,13 +21,24 @@ class Api::ChargesController < ApplicationController
 
     if charge.paid && containPackage
       package_update(charge)
-      render json: user_response(current_user)
+      render json: current_user
     elsif charge.paid
-      render json: { charge: charge }
+      if @cart.update(paid: true, stripe_customer_id: charge.id)
+
+        @cart.games.each do |game|
+          game_order = Order.find_by(cart_id: @cart.id, game_id: game.id)
+          game_sell_stock_update(game, game_order.quantity)
+        end
+
+        @new_cart = Cart.create(user_id: current_user.id)
+        render json: { cart: @new_cart, command_history: user_cart_history() }
+      else
+        render json: @cart.errors, status: :unprocessable_entity
+      end
     end
 
-    # rescue => e
-    #   render json: { error: e.message }
+    rescue => e
+      render json: { error: e.message }
   end
 
   private
@@ -69,5 +80,10 @@ class Api::ChargesController < ApplicationController
       sub_end_year = current_date.year
     end
     return Date.new(sub_end_year, sub_end_month, 1)
+  end
+
+  def game_sell_stock_update(game, quantity)
+    sell_stock = game.sell_stock
+    game.update(sell_stock: sell_stock - quantity)
   end
 end

@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_172953) do
     t.integer "game_number"
     t.string "name"
     t.integer "price"
+    t.string "description", default: ""
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

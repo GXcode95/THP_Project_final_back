@@ -1,51 +1,21 @@
 class Api::RanksController < ApplicationController
-  before_action :set_rank, only: [:show, :update, :destroy]
+  before_action :authenticate_user!
 
-  # GET /ranks
-  def index
-    @ranks = Rank.all
-
-    render json: @ranks
-  end
-
-  # GET /ranks/1
-  def show
-    render json: @rank
-  end
-
-  # POST /ranks
   def create
     @rank = Rank.new(rank_params)
-
+    
     if @rank.save
-      render json: @rank, status: :created, location: @rank
+      @game = @rank.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @rank.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /ranks/1
-  def update
-    if @rank.update(rank_params)
-      render json: @rank
-    else
-      render json: @rank.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /ranks/1
-  def destroy
-    @rank.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rank
-      @rank = Rank.find(params[:id])
-    end
-
+  
     # Only allow a list of trusted parameters through.
     def rank_params
-      params.fetch(:rank, {})
+      params.permit(:game_id, :user_id, :note)
     end
 end

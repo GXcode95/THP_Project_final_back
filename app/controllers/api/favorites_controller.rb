@@ -1,16 +1,9 @@
 class Api::FavoritesController < ApplicationController
-  before_action :set_favorite, only: [:show, :update, :destroy]
+  before_action :set_game, only: [:destroy]
+  before_action :authenticate_user!
 
-  # GET /favorites
   def index
-    @favorites = Favorite.all
-
-    render json: @favorites
-  end
-
-  # GET /favorites/1
-  def show
-    render json: @favorite
+    render json: favorites_games(current_user)
   end
 
   # POST /favorites
@@ -18,16 +11,7 @@ class Api::FavoritesController < ApplicationController
     @favorite = Favorite.new(favorite_params)
 
     if @favorite.save
-      render json: @favorite, status: :created, location: @favorite
-    else
-      render json: @favorite.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /favorites/1
-  def update
-    if @favorite.update(favorite_params)
-      render json: @favorite
+      render json: favorites_games(current_user)
     else
       render json: @favorite.errors, status: :unprocessable_entity
     end
@@ -35,17 +19,19 @@ class Api::FavoritesController < ApplicationController
 
   # DELETE /favorites/1
   def destroy
+    @favorite = Favorite.find_by(user_id: current_user.id, game_id: @game.id)
     @favorite.destroy
+    render json: favorites_games(current_user)
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_favorite
-      @favorite = Favorite.find(params[:id])
+    def set_game
+      @game = Game.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def favorite_params
-      params.fetch(:favorite, {})
+      params.permit(:user_id, :game_id)
     end
 end

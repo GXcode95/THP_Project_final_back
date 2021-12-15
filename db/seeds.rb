@@ -1,4 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
+# This file should contain all the record creation needed,
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
 # Examples:
@@ -8,6 +8,31 @@
 
 require 'faker'
 
+imagesExample = [
+  'terraforming-mars',
+  'codenames-vf',
+  'the-crew',
+  '7-wonders-architects_3',
+  '7-wonders-architects_2',
+  'micromacro-crime-city-full-house',
+  'kingdomino-origins',
+  '7-wonders-architects_1',
+  'skyjo',
+  'res-arcana-extension-perlae-imperii',
+  'paleo',
+  'cartaventura-lhassa',
+  'cartaventura-oklahoma',
+  'just-one',
+  'unlock-game-adventures',
+  'nouvelles-contrees',
+  'welcome-to-the-moon',
+  '7-wonders-architects',
+  'lama-le-jeu-de-des',
+  'arsenic-p-image-78091-moyenne',
+  'unlock-game-adventures_1',
+  'dragomino',
+  'batman-the-dark-knight-rises-the-fire-rises'
+]
 25.times do
     Game.create(
         name: Faker::Game.title,
@@ -28,21 +53,30 @@ end
 Package.create(
     game_number:1,
     name:"Débutant",
-    price: 1000
+    price: 1000,
+    description: "Location d'un jeu maximum simultanément / mois.\n
+     Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+     A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
 Package.create(
     game_number:2,
     name:"Habitué",
-    price: 1500
+    price: 1500,
+    description: "Location de 2 jeux maximum simultanément / mois.\n
+    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
 Package.create(
     game_number:4,
-    name:"Exper",
-    price: 2000
+    name:"Expert",
+    price: 2000,
+    description: "Location de 4 jeux maximum simultanément / mois.\n
+    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
+    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
     )
 puts 'Package crée'
 
@@ -145,11 +179,10 @@ end
     puts 'Order crée'
 end
 
-30.times do
+80.times do
     Image.create(
         game_id: rand(1..25),
-        public_id:'https://cdn.w600.comps.canstockphoto.fr/jeu-table-diamant-three-player-image_csp68281811.jpg'
-        )
+        public_id: imagesExample.sample
+    )
     puts 'Image créee'
 end
-

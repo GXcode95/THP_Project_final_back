@@ -1,24 +1,14 @@
 class Api::CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :update, :destroy]
-
-  # GET /comments
-  def index
-    @comments = Comment.all
-
-    render json: @comments
-  end
-
-  # GET /comments/1
-  def show
-    render json: @comment
-  end
-
+  before_action :set_comment, only: [:update, :destroy]
+  before_action :authenticate_user!
+  
   # POST /comments
   def create
-    @comment = Comment.new(comment_params)
+    @comment = Comment.new(user_id: current_user.id, game_id: params[:game_id], content: params[:content])
 
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      @game = @comment.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -27,7 +17,8 @@ class Api::CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
-      render json: @comment
+      @game = @comment.game
+      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -35,7 +26,9 @@ class Api::CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
+    @game = @comment.game
     @comment.destroy
+    render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
   end
 
   private
@@ -46,6 +39,6 @@ class Api::CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.fetch(:comment, {})
+      params.permit(:user_id, :game_id, :content)
     end
 end

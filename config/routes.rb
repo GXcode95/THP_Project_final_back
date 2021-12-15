@@ -10,22 +10,23 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :users, only: [:index, :show]
       resources :rents, only: [:index, :update]
+      resources :packages, only: [:update]
       resources :games, only: [:index, :create, :update, :destroy] do
         resources :images, only: [:create, :destroy]
       end
+      resources :tags, only: [:create, :update, :destroy]
     end
     resources :games, only: [:index, :show]
-    resources :carts, only: [:show, :index, :update] # Add to be update when implementing stripes
-    put '/carts_package_update', to: 'carts#package_update'
+    resources :carts, only: [:show, :index] # Add to be update when implementing stripes
     resources :packages, only: [:index]
     resources :orders, only: [:create, :update, :destroy]
-    resources :rents, only: [:index, :create, :update, :destroy]
+    resources :packages, only: [:index]
+    resources :rents, only: [:create, :update, :destroy]
     resources :charges, only: [:create]
+    resources :tags, only: [:index]
+    resources :ranks, only: [:create]
+    resources :favorites, only: [:index, :create, :destroy]
+    resources :comments, only: [:create, :update, :destroy]
   end
-  # features #
-  # resources :tags
-  # resources :ranks
-  # resources :comments
-  # resources :favorites
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
