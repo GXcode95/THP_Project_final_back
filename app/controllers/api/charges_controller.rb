@@ -13,7 +13,7 @@ class Api::ChargesController < ApplicationController
     end
     
     charge = Stripe::Charge.create(
-      :amount => 1000,
+      :amount => @total_price,
       :description => 'Playbox Store',
       :currency => 'eur',
       :source => params[:token][:id]
