@@ -8,7 +8,7 @@ class Api::CommentsController < ApplicationController
 
     if @comment.save
       @game = @comment.game
-      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
+      render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -18,7 +18,7 @@ class Api::CommentsController < ApplicationController
   def update
     if @comment.update(comment_params)
       @game = @comment.game
-      render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
+      render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class Api::CommentsController < ApplicationController
   def destroy
     @game = @comment.game
     @comment.destroy
-    render json: { info: @game, images: @game.images, rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
+    render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments }
   end
 
   private
