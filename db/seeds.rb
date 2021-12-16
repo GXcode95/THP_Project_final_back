@@ -55,9 +55,9 @@ Package.create(
     )
 puts 'Package crée'
 
-10.times do
+["Stratégie", "Plateau", "Coopération", "Hasard", "Carte", "Culturel", "Enfant", "Adulte", "Dextérité", "Reflexion"].each do |tag|
     Tag.create(
-        name: Faker::Lorem.characters(number: rand(1..15))
+        name: tag
         )
     puts 'Tag crée'
 end
