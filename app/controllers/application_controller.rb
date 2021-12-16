@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
       user_info: user,
       rent: setup_rent_response(user),
       cart: setup_cart_response(@current_cart),
-      favorites: user.favorites_games
+      favorites: favorites_games(user)
     }
   end
 
@@ -20,10 +20,13 @@ class ApplicationController < ActionController::API
     @wish_list = Rent.where(user_id: user.id, status: "wishlist")
     @rent_games = Rent.where(user_id: user.id, status: "rented")
     @rented_games = Rent.where(user_id: user.id, status: "past_rentals")
+    @wish_list_limit= Package.find(user.package_id).game_number if user.package_id
+    
     return {
       rented_games: format_rent_response(@rented_games),
       rent_games: format_rent_response(@rent_games),
-      wishlist: format_rent_response(@wish_list)
+      wishlist: format_rent_response(@wish_list),
+      wishlist_limit: @wish_list_limit
     }
   end
 
@@ -99,5 +102,15 @@ class ApplicationController < ActionController::API
       images << image.public_id 
     end
     images
+  end
+
+  def favorites_games(user)
+    favorites_games = []
+
+    user.favorites.each do |favorite|
+      favorites_games.push({ info:favorite.game, images: get_game_public_id(favorite.game) })
+    end
+
+    return favorites_games
   end
 end
