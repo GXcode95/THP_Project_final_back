@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
     @wish_list = Rent.where(user_id: user.id, status: "wishlist")
     @rent_games = Rent.where(user_id: user.id, status: "rented")
     @rented_games = Rent.where(user_id: user.id, status: "past_rentals")
-    @wish_list_limit= Package.find(user.package_id).game_number
+    @wish_list_limit= Package.find(user.package_id).game_number if user.package_id
     
     return {
       rented_games: format_rent_response(@rented_games),
