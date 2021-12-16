@@ -8,9 +8,9 @@ class Api::GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     if current_user 
-      render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, isRanked: is_ranked(@game, current_user) }
+      render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, is_ranked: is_ranked(@game, current_user) }
     else
-       render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, isRanked: nil }
+       render json: { info: @game, images: get_game_public_id(@game), rank: @game.get_global_rank(), tags: @game.tags, comments: @game.comments, is_ranked: nil }
     end
   end
 
