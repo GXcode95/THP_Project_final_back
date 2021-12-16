@@ -7,24 +7,28 @@ class Api::Admin::TagsController < ApplicationController
     @tag = Tag.new(tag_params)
 
     if @tag.save
-      render json: @tag, status: :created, location: @tag
+      @tags = Tag.all
+      render json: @tags, status: :created
     else
-      render json: @tag.errors, status: :unprocessable_entity
+      render json: { error: @tag.errors }
     end
   end
 
   # PATCH/PUT /tags/1
   def update
     if @tag.update(tag_params)
-      render json: @tag
+      @tags = Tag.all
+      render json: @tags
     else
-      render json: @tag.errors, status: :unprocessable_entity
+      render json: { error: @tag.errors }
     end
   end
 
   # DELETE /tags/1
   def destroy
     @tag.destroy
+    @tags = Tag.all
+    render json: @tags
   end
 
   private
