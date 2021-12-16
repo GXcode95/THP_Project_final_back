@@ -11,7 +11,7 @@ require 'faker'
 25.times do
     Game.create(
         name: Faker::Game.title,
-        price: 100,
+        price: rand(5..100),
         creator: Faker::Name.name,
         editor: Faker::TvShows::Stargate.planet,
         description: Faker::Lorem.question(word_count: 24),
