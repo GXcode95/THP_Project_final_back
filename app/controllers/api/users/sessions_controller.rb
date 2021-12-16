@@ -20,7 +20,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   end
 
   def log_out_failure
-    render json: { message: "Hmm nothing happened."}, status: :unauthorized
+    render json: { error: "Hmm nothing happened."}, status: :ok
   end
 
   def log_in_success
@@ -28,6 +28,6 @@ class Api::Users::SessionsController < Devise::SessionsController
   end
 
   def log_in_failure
-    render json: { message: 'Failed to log in' }, status: :ok
+    render json: { error: 'Failed to log in' }, status: :ok
   end
 end
