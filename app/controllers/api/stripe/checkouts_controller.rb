@@ -1,25 +1,39 @@
 class Api::Stripe::CheckoutsController < ApplicationController
   def create
-    p "#"*300
-    p params
-    p "#"*300
+
+    @line_items_params = params.require(:line_items).permit(:name, :amount, :currency, :price, :quantity)
+    @mode = params.require(:mode)
+
+    if @line_items_params[:currency]
+      @line_items_array= [
+        name: @line_items_params[:name], 
+        amount: @line_items_params[:amount], 
+        quantity: @line_items_params[:quantity],
+        currency: @line_items_params[:currency] 
+      ]
+    else
+      @line_items_array= [
+        price: @line_items_params[:price],
+        quantity: @line_items_params[:quantity]
+      ]
+    end
+
 
     session = Stripe::Checkout::Session.create({
       customer: current_user.stripe_customer_id,
       success_url: ENV['SUCCESS_URL'],
       cancel_url: ENV['CANCEL_URL'],
       payment_method_types: ['card'],
-      line_items: [
-        {price: 'price_1K5oEgDzWhv05aHOikcoWFCf', quantity: 1}
-      ],
-      mode: 'subscription'
+      line_items: @line_items_array,
+      mode: @mode
     })
 
+    p "#"*300
+    p session
+    p "#"*300
+
     if session
-      p "%"*300
-      p session[:url]
-      p "%"*300
-      render json: { redirect_url: session[:url]}
+      render json: { redirect_url: session[:url] }
     end
   end
 end
