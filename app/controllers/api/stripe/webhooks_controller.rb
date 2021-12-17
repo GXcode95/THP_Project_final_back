@@ -23,10 +23,29 @@ class Api::Stripe::WebhooksController < ApplicationController
     p event.type
     p "#"*100
 
-    case event.type
+    case event.type    
+    # when 'checkout.session.completed'
+    #   session = event.data.object
+    #   @user = User.find_by(stripe_customer_id: session.customer)
+    #   @user.update(subscription_status: 'active')
+    #   p "#"*300
+    #   p session
+    #   p "#"*300
+    #   p session.customer
+    #   p "#"*300
+    #   p @user.id
+    #   p "#"*300
+    #   p @user.errors
+    #   p "#"*300
     when 'customer.subscription.updated', 'customer.subscription.deleted'
       subscription = event.data.object
-      @user = User.find_by(stripe_customer_id: session.customer)
+      p '$'
+      p subscription
+      p '$'
+      p subscription.customer
+      p '$'
+
+      @user = User.find_by(stripe_customer_id: subscription.customer)
       @user.update(
         subscription_status: subscription.status,
         # plan: subscription.items.data[0].price.lookup_key,
