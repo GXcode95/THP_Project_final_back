@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       resources :billing_portal, only: [:create]
       resources :charges, only: [:create]
       resources :checkouts, only: [:create]
+      resources :prices, only: [:update]
+      resources :webhooks, only: [:create]
     end
     resources :games, only: [:index, :show]
     resources :carts, only: [:show, :index] # Add to be update when implementing stripes
