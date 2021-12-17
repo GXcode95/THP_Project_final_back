@@ -157,7 +157,7 @@ end
 80.times do
     Image.create(
         game_id: rand(1..25),
-        public_id: "game_"+rand(1..50).to_s
+        public_id: "seed/game_"+rand(1..50).to_s
     )
     puts 'Image créee'
 end
