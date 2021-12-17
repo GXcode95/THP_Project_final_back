@@ -20,6 +20,8 @@ class Api::Stripe::WebhooksController < ApplicationController
       return
     end
     p "POPPPOPOPOPOPOPOPOP"*100
+    p event.type
+    p "POPPPOPOPOPOPOPOPOP"*100
 
     case event.type
     when 'chekout.session.completed'
