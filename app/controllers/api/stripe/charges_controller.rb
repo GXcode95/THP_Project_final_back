@@ -1,4 +1,4 @@
-class Api::ChargesController < ApplicationController
+class Api::Stripe::ChargesController < ApplicationController
   before_action :authenticate_user!
   
   def create
