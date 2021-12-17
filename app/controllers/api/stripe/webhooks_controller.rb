@@ -1,5 +1,5 @@
 class Api::Stripe::WebhooksController < ApplicationController
-  # skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!
   # skip_before_action :verify_authenticate_token
 
   def create
