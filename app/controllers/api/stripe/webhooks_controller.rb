@@ -20,7 +20,7 @@ class Api::Stripe::WebhooksController < ApplicationController
       return
     end
 
-    case event.payment_method_types
+    case event.type
     when 'chekout.session.completed'
       session = event.data.object
       @user = User.find_by(stripe_customer_id: session.customer)
@@ -30,7 +30,7 @@ class Api::Stripe::WebhooksController < ApplicationController
       @user = User.find_by(stripe_customer_id: session.customer)
       @user.update(
         subscription_status: subscription.status,
-        plan: subscription.items.data[0].price.lookup_key,
+        # plan: subscription.items.data[0].price.lookup_key,
       )
     end
     render json: { message: 'success'}
