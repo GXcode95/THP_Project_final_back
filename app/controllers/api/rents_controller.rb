@@ -47,7 +47,7 @@ class Api::RentsController < ApplicationController
     end
 
     def is_subscribed?
-      current_user.subscription_ending > Date.today
+      current_user.subscription_status == "active"
     end
 
     def update_game_rent_stock(quantity)
