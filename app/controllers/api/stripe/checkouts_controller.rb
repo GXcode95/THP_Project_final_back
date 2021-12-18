@@ -19,8 +19,9 @@ class Api::Stripe::CheckoutsController < ApplicationController
 
       @line_items_array= [
         name: "Achat Playbox",
-        unit_amount: @total_price,
-        currency: "eur"
+        amount: @total_price,
+        currency: "eur",
+        quantity: "1"
       ]
     end
 
