@@ -45,10 +45,6 @@ class Api::Stripe::WebhooksController < ApplicationController
     when 'customer.subscription.updated', 'customer.subscription.deleted'
       subscription = event.data.object
 
-      p '@'*300
-      p subscription
-      p '@'*300
-
       @user = User.find_by(stripe_customer_id: subscription.customer)
       @package = Package.find_by(price_id: subscription.plan.id)
       @user.update(subscription_status: subscription.status, package_id: @package.id)
