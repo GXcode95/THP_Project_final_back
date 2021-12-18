@@ -3,11 +3,12 @@ class Api::Stripe::CheckoutsController < ApplicationController
 
   def create
 
-    @line_items_params = params.require(:line_items).permit(:price, :quantity)
 
     @mode = params.require(:mode)
     
-    if @line_items_params[:price]
+    if params[line_items]
+      @line_items_params = params.require(:line_items).permit(:price, :quantity)
+
       @line_items_array= [
         price: @line_items_params[:price],
         quantity: @line_items_params[:quantity]
