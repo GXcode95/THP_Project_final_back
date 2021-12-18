@@ -27,10 +27,6 @@ class Api::Stripe::CheckoutsController < ApplicationController
       mode: @mode
     })
 
-    p "£"*300
-    p session
-    p "£"*300
-
     if session
       render json: { redirect_url: session[:url] }
     end
