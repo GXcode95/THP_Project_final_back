@@ -20,10 +20,6 @@ class Api::Stripe::WebhooksController < ApplicationController
       return
     end
 
-    p "$"*300
-    p event.type
-    p "$"*300
-
     case event.type 
 
     when 'checkout.session.completed'

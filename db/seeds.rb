@@ -81,7 +81,6 @@ User.create(
     address:((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
     phone: "0" + rand(100000000..999999999).to_s,
     admin: true,
-    subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
     package_id: 1
     )
 puts "Admin crée"
@@ -95,7 +94,6 @@ puts "Admin crée"
         address: ((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
         phone: "0" + rand(100000000..999999999).to_s,
         admin: false,
-        # subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
         package_id:1
         )
     puts 'User crée'
