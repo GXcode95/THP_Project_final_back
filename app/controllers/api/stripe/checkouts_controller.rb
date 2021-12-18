@@ -1,19 +1,25 @@
 class Api::Stripe::CheckoutsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
 
-    @line_items_params = params.require(:line_items).permit(:name, :amount, :currency, :price, :quantity)
-    @mode = params.require(:mode)
+    @line_items_params = params.require(:line_items).permit(:price, :quantity)
 
-    if @line_items_params[:currency]
-      @line_items_array= [
-        name: @line_items_params[:name],
-        unit_amount: @line_items_params[:amount],
-        currency: @line_items_params[:currency]
-      ]
-    else
+    @mode = params.require(:mode)
+    
+    if @line_items_params[:price]
       @line_items_array= [
         price: @line_items_params[:price],
         quantity: @line_items_params[:quantity]
+      ]
+    else
+      @cart = Cart.find_by(user_id: current_user, paid: false)
+      @total_price = @cart.total_price
+
+      @line_items_array= [
+        name: "Achat Playbox",
+        unit_amount: @total_price,
+        currency: "eur"
       ]
     end
 
