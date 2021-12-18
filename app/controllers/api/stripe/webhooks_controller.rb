@@ -1,6 +1,6 @@
 class Api::Stripe::WebhooksController < ApplicationController
-  # skip_before_action :authenticate_user!
-  # skip_before_action :verify_authenticate_token
+  skip_before_action :authenticate_user!, raise: false
+  skip_before_action :verify_authenticate_token, raise: false
 
   def create
     payload = request.body.read
@@ -20,22 +20,39 @@ class Api::Stripe::WebhooksController < ApplicationController
       return
     end
 
-    case event.payment_method_types
-    when 'chekout.session.completed'
+    case event.type 
+
+    when 'checkout.session.completed'
       session = event.data.object
       @user = User.find_by(stripe_customer_id: session.customer)
-      @user.update(subscription_status: 'active')
-      p "#"*300
-      p session
-      p "#"*300
-    when 'custome.subscription.updated', 'customer.subscription.deleted'
+      @cart = Cart.find_by(user_id: @user.id, paid: false)
+      
+      if session.payment_status == "paid"
+        @cart.update(paid: true, session_id: session.id)
+
+        @cart.games.each do |game|
+          game_order = Order.find_by(cart_id: @cart.id, game_id: game.id)
+          game_sell_stock_update(game, game_order.quantity)
+        end
+
+        Cart.create(user_id: @user.id)
+      end
+
+    when 'customer.subscription.updated', 'customer.subscription.deleted'
       subscription = event.data.object
-      @user = User.find_by(stripe_customer_id: session.customer)
-      @user.update(
-        subscription_status: subscription.status,
-        plan: subscription.items.data[0].price.lookup_key,
-      )
+
+      @user = User.find_by(stripe_customer_id: subscription.customer)
+      @package = Package.find_by(price_id: subscription.plan.id)
+      @user.update(subscription_status: subscription.status, package_id: @package.id)
     end
+
     render json: { message: 'success'}
+  end
+
+  private
+  
+  def game_sell_stock_update(game, quantity)
+    sell_stock = game.sell_stock
+    game.update(sell_stock: sell_stock - quantity)
   end
 end

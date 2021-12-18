@@ -1,20 +1,27 @@
 class Api::Stripe::CheckoutsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
 
-    @line_items_params = params.require(:line_items).permit(:name, :amount, :currency, :price, :quantity)
-    @mode = params.require(:mode)
 
-    if @line_items_params[:currency]
-      @line_items_array= [
-        name: @line_items_params[:name], 
-        amount: @line_items_params[:amount], 
-        quantity: @line_items_params[:quantity],
-        currency: @line_items_params[:currency] 
-      ]
-    else
+    @mode = params.require(:mode)
+    
+    if params[:line_items]
+      @line_items_params = params.require(:line_items).permit(:price, :quantity)
+
       @line_items_array= [
         price: @line_items_params[:price],
         quantity: @line_items_params[:quantity]
+      ]
+    else
+      @cart = Cart.find_by(user_id: current_user, paid: false)
+      @total_price = @cart.total_price
+
+      @line_items_array= [
+        name: "Achat Playbox",
+        amount: @total_price,
+        currency: "eur",
+        quantity: "1"
       ]
     end
 
@@ -27,10 +34,6 @@ class Api::Stripe::CheckoutsController < ApplicationController
       line_items: @line_items_array,
       mode: @mode
     })
-
-    p "#"*300
-    p session
-    p "#"*300
 
     if session
       render json: { redirect_url: session[:url] }
