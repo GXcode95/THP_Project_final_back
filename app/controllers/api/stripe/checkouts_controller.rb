@@ -6,10 +6,9 @@ class Api::Stripe::CheckoutsController < ApplicationController
 
     if @line_items_params[:currency]
       @line_items_array= [
-        name: @line_items_params[:name], 
-        amount: @line_items_params[:amount], 
-        quantity: @line_items_params[:quantity],
-        currency: @line_items_params[:currency] 
+        name: @line_items_params[:name],
+        unit_amount: @line_items_params[:amount],
+        currency: @line_items_params[:currency]
       ]
     else
       @line_items_array= [
@@ -28,9 +27,9 @@ class Api::Stripe::CheckoutsController < ApplicationController
       mode: @mode
     })
 
-    p "#"*300
+    p "£"*300
     p session
-    p "#"*300
+    p "£"*300
 
     if session
       render json: { redirect_url: session[:url] }

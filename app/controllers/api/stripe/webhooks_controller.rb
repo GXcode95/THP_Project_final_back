@@ -19,35 +19,43 @@ class Api::Stripe::WebhooksController < ApplicationController
       p e
       return
     end
-    p "#"*100
-    p event.type
-    p "#"*100
 
     case event.type    
+
     when 'checkout.session.completed'
       session = event.data.object
-      p "#"*300
-      p session
-      p "#"*300
-      p session.customer
-      p "#"*300
+      @user = User.find_by(stripe_customer_id: session.customer)
+      @cart = Cart.find_by(user_id: @user.id, paid: false)
+      
+      if sessions.payment_status == "paid"
+        @cart.update(paid: true, session_id: session.id)
+
+        @cart.games.each do |game|
+          game_order = Order.find_by(cart_id: @cart.id, game_id: game.id)
+          game_sell_stock_update(game, game_order.quantity)
+        end
+
+        Cart.create(user_id: @user.id)
+      end
+
     when 'customer.subscription.updated', 'customer.subscription.deleted'
       subscription = event.data.object
-      p '$'
+      
+      p '@'*300
       p subscription
-      p '$'
-      p subscription.customer
-      p '$'
+      p '@'*300
 
       @user = User.find_by(stripe_customer_id: subscription.customer)
-      @user.update(
-        subscription_status: subscription.status,
-        # plan: subscription.items.data[0].price.lookup_key,
-      )
-      p"$"*300
-      p @user
-      p"$"*300
+      @user.update(subscription_status: subscription.status)
     end
+
     render json: { message: 'success'}
+  end
+
+  private
+  
+  def game_sell_stock_update(game, quantity)
+    sell_stock = game.sell_stock
+    game.update(sell_stock: sell_stock - quantity)
   end
 end
