@@ -29,6 +29,7 @@ Package.create(
     game_number:1,
     name:"Débutant",
     price: 1000,
+    price_id: "price_1K81GJDzWhv05aHOkJbQ12dn",
     description: "Location d'un jeu maximum simultanément / mois.\n
      Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
      A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
@@ -39,6 +40,7 @@ Package.create(
     game_number:2,
     name:"Habitué",
     price: 1500,
+    price_id: "price_1K81H5DzWhv05aHOWgjjlK5J",
     description: "Location de 2 jeux maximum simultanément / mois.\n
     Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
     A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
@@ -49,6 +51,7 @@ Package.create(
     game_number:4,
     name:"Expert",
     price: 2000,
+    price_id: "price_1K81HkDzWhv05aHOWYRysKOG",
     description: "Location de 4 jeux maximum simultanément / mois.\n
     Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
     A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
@@ -78,7 +81,6 @@ User.create(
     address:((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
     phone: "0" + rand(100000000..999999999).to_s,
     admin: true,
-    subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
     package_id: 1
     )
 puts "Admin crée"
@@ -92,7 +94,6 @@ puts "Admin crée"
         address: ((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
         phone: "0" + rand(100000000..999999999).to_s,
         admin: false,
-        # subscription_ending: Faker::Date.in_date_period(year: 2022, month: rand(1..12)),
         package_id:1
         )
     puts 'User crée'

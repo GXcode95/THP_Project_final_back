@@ -16,13 +16,19 @@ Rails.application.routes.draw do
       end
       resources :tags, only: [:create, :update, :destroy]
     end
+    namespace :stripe, as: nil do
+      resources :billing_portal, only: [:create]
+      resources :charges, only: [:create]
+      resources :checkouts, only: [:create]
+      resources :prices, only: [:update]
+      resources :webhooks, only: [:create]
+    end
     resources :games, only: [:index, :show]
     resources :carts, only: [:show, :index] # Add to be update when implementing stripes
     resources :packages, only: [:index]
     resources :orders, only: [:create, :update, :destroy]
     resources :packages, only: [:index]
     resources :rents, only: [:create, :update, :destroy]
-    resources :charges, only: [:create]
     resources :tags, only: [:index]
     resources :ranks, only: [:create]
     resources :favorites, only: [:index, :create, :destroy]

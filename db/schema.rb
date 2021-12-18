@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_172953) do
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 2021_12_17_113910) do
+=======
+ActiveRecord::Schema.define(version: 2021_12_18_122002) do
+>>>>>>> main
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_172953) do
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
     t.boolean "paid", default: false
-    t.string "stripe_customer_id"
+    t.string "session_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
@@ -101,6 +105,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_172953) do
     t.string "description", default: ""
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "price_id"
   end
 
   create_table "ranks", force: :cascade do |t|
@@ -138,13 +143,17 @@ ActiveRecord::Schema.define(version: 2021_12_08_172953) do
     t.string "address"
     t.string "phone"
     t.boolean "admin", default: false
-    t.date "subscription_ending"
     t.bigint "package_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_customer_id"
+<<<<<<< HEAD
+=======
+    t.string "subscription_status"
+>>>>>>> main
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["package_id"], name: "index_users_on_package_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
