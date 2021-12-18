@@ -27,7 +27,7 @@ class Api::Stripe::WebhooksController < ApplicationController
       @user = User.find_by(stripe_customer_id: session.customer)
       @cart = Cart.find_by(user_id: @user.id, paid: false)
       
-      if sessions.payment_status == "paid"
+      if session.payment_status == "paid"
         @cart.update(paid: true, session_id: session.id)
 
         @cart.games.each do |game|
