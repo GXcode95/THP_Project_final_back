@@ -7,6 +7,33 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'faker'
+require 'activerecord-reset-pk-sequence'
+
+Favorite.destroy_all
+Favorite.reset_pk_sequence
+Image.destroy_all
+Image.reset_pk_sequence
+Rank.destroy_all
+Rank.reset_pk_sequence
+Order.destroy_all
+Order.reset_pk_sequence
+Package.destroy_all
+Package.reset_pk_sequence
+Tag.destroy_all
+Tag.reset_pk_sequence
+JoinGameAndTag.destroy_all
+JoinGameAndTag.reset_pk_sequence
+Rent.destroy_all
+Rent.reset_pk_sequence
+Comment.destroy_all
+Comment.reset_pk_sequence
+Cart.destroy_all
+Cart.reset_pk_sequence
+Game.destroy_all
+Game.reset_pk_sequence
+User.destroy_all
+User.reset_pk_sequence
+
 
 25.times do
     Game.create(

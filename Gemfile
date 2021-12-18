@@ -47,3 +47,4 @@ gem 'faker'
 gem 'table_print'
 
 gem 'stripe'
+gem 'activerecord-reset-pk-sequence'
