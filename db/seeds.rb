@@ -35,7 +35,7 @@ User.destroy_all
 User.reset_pk_sequence
 
 
-25.times do
+50.times do
     Game.create(
         name: Faker::Game.title,
         price: rand(5..100),
@@ -57,9 +57,7 @@ Package.create(
     name:"Débutant",
     price: 1000,
     price_id: "price_1K81GJDzWhv05aHOkJbQ12dn",
-    description: "Location d'un jeu maximum simultanément / mois.\n
-     Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
-     A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
+    description: "Location d'un jeu maximum simultanément / mois."
     )
 puts 'Package crée'
 
@@ -68,9 +66,7 @@ Package.create(
     name:"Habitué",
     price: 1500,
     price_id: "price_1K81H5DzWhv05aHOWgjjlK5J",
-    description: "Location de 2 jeux maximum simultanément / mois.\n
-    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
-    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
+    description: "Location de 2 jeux maximum simultanément / mois."
     )
 puts 'Package crée'
 
@@ -79,9 +75,7 @@ Package.create(
     name:"Expert",
     price: 2000,
     price_id: "price_1K81HkDzWhv05aHOWYRysKOG",
-    description: "Location de 4 jeux maximum simultanément / mois.\n
-    Vous pouvez préparer les jeux pour le mois suivant en les ajoutant à votre Liste de Souhaits.\n
-    A partir du 1er du mois suivant, vos jeux placés dans votre Liste de Souhaits seront livrés et il vous sera demandé de nous retourner les votres!"
+    description: "Location de 4 jeux maximum simultanément / mois."
     )
 puts 'Package crée'
 
@@ -112,7 +106,22 @@ User.create(
     )
 puts "Admin crée"
 
-5.times do
+User.create(
+    first_name: Faker::Internet.username ,
+    last_name: Faker::Internet.username,
+    email: "user@playbox.thp",
+    password:"123456",
+    address:((rand(200)).to_s + " grande rue " + (Faker::Address.zip).to_s + " " + (Faker::Address.city) ),
+    phone: "0" + rand(100000000..999999999).to_s,
+    admin: false,
+    package_id: 3,
+    subscription_status: "active"
+    )
+puts "Default user crée"
+
+
+
+20.times do
     User.create(
         first_name: Faker::Internet.username ,
         last_name: Faker::Internet.username,
@@ -128,36 +137,36 @@ end
 
 5.times do 
     Rent.create(
-        game_id: rand(1..25),
-        user_id: rand(1..6),
+        game_id: rand(1..50),
+        user_id: rand(1..20),
         quantity: rand(1..3),
-        status: 1
+        status: 1,
     )
     puts 'Rent crée'
 end
 
-10.times do 
+30.times do 
     Rank.create(
-        game_id: rand(1..25),
-        user_id: rand(1..6),
-        note: rand(1..5),
+        game_id: rand(1..50),
+        user_id: rand(1..20),
+        note: rand(0..5),
     )
     puts 'Rank crée'
 end
 
-15.times do 
+30.times do 
     Comment.create(
-        game_id: rand(1..25),
-        user_id: rand(1..6),
+        game_id: rand(1..50),
+        user_id: rand(1..20),
         content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
     )
     puts 'Comment crée'
 end
 
-5.times do 
+20.times do 
     Favorite.create(
-        game_id: rand(1..25),
-        user_id: rand(1..6),
+        game_id: rand(1..50),
+        user_id: rand(1..20),
     )
     puts 'Favorite crée'
 end
@@ -175,17 +184,17 @@ end
 
 10.times do 
     Order.create(
-        game_id: rand(1..25),
+        game_id: rand(1..50),
         cart_id: rand(1..10),
         quantity: rand(1..3)
     )
     puts 'Order crée'
 end
 
-80.times do
+120.times do
     Image.create(
         game_id: rand(1..25),
-        public_id: "seed/game_"+rand(1..50).to_s
+        public_id: "seed/game_"+rand(1..70).to_s
     )
     puts 'Image créee'
 end
