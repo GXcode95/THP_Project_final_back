@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_122002) do
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
     t.boolean "paid", default: false
+    t.boolean "package_cart", default: false
     t.string "session_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
