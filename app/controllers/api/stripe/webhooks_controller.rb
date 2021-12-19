@@ -44,6 +44,7 @@ class Api::Stripe::WebhooksController < ApplicationController
       @user = User.find_by(stripe_customer_id: subscription.customer)
       @package = Package.find_by(price_id: subscription.plan.id)
       @user.update(subscription_status: subscription.status, package_id: @package.id)
+      Cart.create(user_id: @user.id, paid: true, package_id: true, session_id: subscription.id)
     end
 
     render json: { message: 'success'}
