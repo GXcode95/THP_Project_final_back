@@ -191,9 +191,9 @@ end
     puts 'Order crée'
 end
 
-120.times do
+150.times do
     Image.create(
-        game_id: rand(1..25),
+        game_id: rand(1..50),
         public_id: "seed/game_"+rand(1..70).to_s
     )
     puts 'Image créee'
