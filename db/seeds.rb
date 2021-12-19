@@ -38,7 +38,7 @@ User.reset_pk_sequence
 50.times do
     Game.create(
         name: Faker::Game.title,
-        price: rand(5..100),
+        price: rand(500..20000),
         creator: Faker::Name.name,
         editor: Faker::TvShows::Stargate.planet,
         description: Faker::Lorem.question(word_count: 24),
