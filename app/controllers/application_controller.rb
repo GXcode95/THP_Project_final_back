@@ -31,7 +31,7 @@ class ApplicationController < ActionController::API
   end
 
   def user_cart_history()
-    @carts = Cart.where(user_id: current_user.id, paid: true)
+    @carts = Cart.where(user_id: current_user.id, paid: true).order("updated_at")
     @formatedCart = []
     @cart_games = []
     @cart_package = []
