@@ -28,6 +28,8 @@ It's available as a PWA, so you can install it on any desktop or mobile environm
 
   - You can fill the site with our seed with `$ rails db:seed`
 
+  - run the back with `$ rails server` and the front with `$ yarn start`
+ 
 As we use some extra services like sendgrid and cloudianry, you will have to setup environment variable with your own credentials.
 
 
