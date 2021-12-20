@@ -1,26 +1,37 @@
-# README
+Link for front-end => https://github.com/GXcode95/THP_Project_final_front
+npm => 8.1.4
+yarn => 1.22.17
+ruby => 2.7.4
+rails => 6.1.4
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# This application is our final project from The Hacking Project bootcamp
 
-Things you may want to cover:
+## It's called Playbox and it's a society game marketplace with a rent system.
 
-* Ruby version
+This applicaiton is made with react as front-end frameworks, with a ruby on rails API back-end.
 
-* System dependencies
+We used Material UI react component library to desgin our component faster.
 
-* Configuration
+We used cloudinary's API to handke our images.
 
-* Database creation
+It's available as a PWA, so you can install it on any desktop or mobile environment.
 
-* Database initialization
+## Installation 
 
-* How to run the test suite
+  - Download the front and back repository.
 
-* Services (job queues, cache servers, search engines, etc.)
+  - install the front with ` $ yarn install `
+  
+  - install The back with `$ bundle install`
 
-* Deployment instructions
+  - create the db and run your migration with `$ rails db:create db:migrate`
 
-* ...
+  - You can fill the site with our seed with `$ rails db:seed`
+
+As we use some extra services like sendgrid and cloudianry, you will have to setup environment variable with your own credentials.
+
+
+
+
 
 
